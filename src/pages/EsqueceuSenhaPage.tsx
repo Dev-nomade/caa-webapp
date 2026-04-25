@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { recuperarSenha } from '../services/authService';
+import { recoverPassword } from '../services/authService';
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(20px); }
@@ -141,7 +141,7 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const EsqueceuSenhaPage: React.FC = () => {
+const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState<{ text: string; error: boolean } | null>(null);
   const [loading, setLoading] = useState(false);
@@ -153,7 +153,7 @@ const EsqueceuSenhaPage: React.FC = () => {
     setLoading(true);
 
     setTimeout(() => {
-      const result = recuperarSenha(email);
+      const result = recoverPassword(email);
       setMessage({ text: result.message, error: !result.success });
       setLoading(false);
       if (result.success) {
@@ -166,10 +166,10 @@ const EsqueceuSenhaPage: React.FC = () => {
     <PageContainer>
       <Card>
         <LogoSection>
-          <LogoEmoji role="img" aria-label="Cérebro">🧠</LogoEmoji>
+          <LogoEmoji role="img" aria-label="Brain">🧠</LogoEmoji>
           <LogoText>CognitIA</LogoText>
           <Subtitle>
-            Digite seu e-mail cadastrado e enviaremos um link para redefinir sua senha.
+            Enter your registered email and we will send you a link to reset your password.
           </Subtitle>
         </LogoSection>
 
@@ -178,10 +178,10 @@ const EsqueceuSenhaPage: React.FC = () => {
         {!sent && (
           <Form onSubmit={handleSubmit}>
             <Label>
-              E-mail cadastrado
+              Registered email
               <Input
                 type="email"
-                placeholder="Digite seu e-mail"
+                placeholder="Enter your email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -190,17 +190,17 @@ const EsqueceuSenhaPage: React.FC = () => {
             </Label>
 
             <SubmitButton type="submit" disabled={loading}>
-              {loading ? 'Enviando...' : 'Recuperar senha'}
+              {loading ? 'Sending...' : 'Recover password'}
             </SubmitButton>
           </Form>
         )}
 
         <FooterLinks>
-          <StyledLink to="/login">Voltar para o login</StyledLink>
+          <StyledLink to="/login">Back to login</StyledLink>
         </FooterLinks>
       </Card>
     </PageContainer>
   );
 };
 
-export default EsqueceuSenhaPage;
+export default ForgotPasswordPage;

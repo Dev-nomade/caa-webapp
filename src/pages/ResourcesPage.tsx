@@ -199,18 +199,18 @@ const ResourcesPage: React.FC = () => {
     <PageContainer>
       <PageTitle>
         <span role="img" aria-hidden="true">📚</span>
-        Recursos
+        Resources
       </PageTitle>
-      <PageSubtitle>Músicas relaxantes, dicas para cuidadores e atalhos do teclado.</PageSubtitle>
+      <PageSubtitle>Relaxing music, caregiver tips, and keyboard shortcuts.</PageSubtitle>
 
-      <TabContainer role="tablist" aria-label="Seções de recursos">
+      <TabContainer role="tablist" aria-label="Resource sections">
         <Tab
           role="tab"
           aria-selected={activeTab === 'music'}
           $active={activeTab === 'music'}
           onClick={() => setActiveTab('music')}
         >
-          🎵 Músicas
+          🎵 Music
         </Tab>
         <Tab
           role="tab"
@@ -218,7 +218,7 @@ const ResourcesPage: React.FC = () => {
           $active={activeTab === 'tips'}
           onClick={() => setActiveTab('tips')}
         >
-          💡 Dicas
+          💡 Tips
         </Tab>
         <Tab
           role="tab"
@@ -226,15 +226,15 @@ const ResourcesPage: React.FC = () => {
           $active={activeTab === 'keyboard'}
           onClick={() => setActiveTab('keyboard')}
         >
-          ⌨️ Atalhos
+          ⌨️ Shortcuts
         </Tab>
       </TabContainer>
 
       {activeTab === 'music' && (
-        <section aria-label="Lista de reprodução">
+        <section aria-label="Playlist">
           <SectionTitle>
             <SectionIcon role="img" aria-hidden="true">🎵</SectionIcon>
-            Lista de Reprodução Relaxante
+            Relaxing Playlist
           </SectionTitle>
           <MusicGrid>
             {musicTracks.map((track) => (
@@ -258,10 +258,10 @@ const ResourcesPage: React.FC = () => {
       )}
 
       {activeTab === 'tips' && (
-        <section aria-label="Dicas para o cuidador">
+        <section aria-label="Caregiver tips">
           <SectionTitle>
             <SectionIcon role="img" aria-hidden="true">💡</SectionIcon>
-            Dicas para o Cuidador
+            Caregiver Tips
           </SectionTitle>
           <TipsGrid>
             {caregiverTips.map((tip) => (
@@ -276,88 +276,88 @@ const ResourcesPage: React.FC = () => {
       )}
 
       {activeTab === 'keyboard' && (
-        <KeyboardSection aria-label="Atalhos de teclado e botões físicos">
+        <KeyboardSection aria-label="Keyboard shortcuts and physical buttons">
           <SectionTitle>
             <SectionIcon role="img" aria-hidden="true">⌨️</SectionIcon>
-            Atalhos de Teclado / Botões Físicos
+            Keyboard Shortcuts / Physical Buttons
           </SectionTitle>
           <p style={{ marginBottom: 16, color: '#666' }}>
-            Use estas teclas do teclado ou conecte botões físicos via API de entrada
-            para acionar as mesmas funções do app.
+            Use these keyboard keys or connect physical buttons via the input API
+            to trigger the same app functions.
           </p>
           <KeyTable>
             <thead>
               <tr>
                 <KeyCell as="th" style={{ fontWeight: 700, color: '#333' }}>
-                  Tecla
+                  Key
                 </KeyCell>
                 <KeyCell as="th" style={{ fontWeight: 700, color: '#333' }}>
-                  Ação
+                  Action
                 </KeyCell>
               </tr>
             </thead>
             <tbody>
               <KeyRow>
                 <KeyCell><KeyBadge>1</KeyBadge></KeyCell>
-                <KeyCell>🍽️ Comer</KeyCell>
+                <KeyCell>🍽️ Eat</KeyCell>
               </KeyRow>
               <KeyRow>
                 <KeyCell><KeyBadge>2</KeyBadge></KeyCell>
-                <KeyCell>🥤 Beber</KeyCell>
+                <KeyCell>🥤 Drink</KeyCell>
               </KeyRow>
               <KeyRow>
                 <KeyCell><KeyBadge>3</KeyBadge></KeyCell>
-                <KeyCell>🚿 Banhar</KeyCell>
+                <KeyCell>🚿 Bathe</KeyCell>
               </KeyRow>
               <KeyRow>
                 <KeyCell><KeyBadge>4</KeyBadge></KeyCell>
-                <KeyCell>👕 Vestir</KeyCell>
+                <KeyCell>👕 Get Dressed</KeyCell>
               </KeyRow>
               <KeyRow>
                 <KeyCell><KeyBadge>5</KeyBadge></KeyCell>
-                <KeyCell>😴 Dormir</KeyCell>
+                <KeyCell>😴 Sleep</KeyCell>
               </KeyRow>
               <KeyRow>
                 <KeyCell><KeyBadge>6</KeyBadge></KeyCell>
-                <KeyCell>🚶 Passear</KeyCell>
+                <KeyCell>🚶 Go for a Walk</KeyCell>
               </KeyRow>
               <KeyRow>
                 <KeyCell><KeyBadge>0</KeyBadge></KeyCell>
-                <KeyCell>🚨 SOS (Emergência)</KeyCell>
+                <KeyCell>🚨 SOS (Emergency)</KeyCell>
               </KeyRow>
               <KeyRow>
                 <KeyCell><KeyBadge>F1</KeyBadge></KeyCell>
-                <KeyCell>🤕 Dor</KeyCell>
+                <KeyCell>🤕 Pain</KeyCell>
               </KeyRow>
               <KeyRow>
                 <KeyCell><KeyBadge>F2</KeyBadge></KeyCell>
-                <KeyCell>🔊 Barulho Alto</KeyCell>
+                <KeyCell>🔊 Loud Noise</KeyCell>
               </KeyRow>
               <KeyRow>
                 <KeyCell><KeyBadge>F3</KeyBadge></KeyCell>
-                <KeyCell>😨 Medo</KeyCell>
+                <KeyCell>😨 Fear</KeyCell>
               </KeyRow>
             </tbody>
           </KeyTable>
 
           <div style={{ marginTop: 24, padding: 16, background: '#FFF3E0', borderRadius: 12, border: '2px solid #FFB74D' }}>
             <h3 style={{ color: '#E65100', marginBottom: 8, fontSize: '1.1rem' }}>
-              🔌 API de Botões Físicos
+              🔌 Physical Buttons API
             </h3>
             <p style={{ color: '#666', fontSize: '0.95rem', lineHeight: 1.7 }}>
-              Para integrar botões físicos, envie eventos de teclado simulados via a API
+              To integrate physical buttons, send simulated keyboard events via the browser's
               <code style={{ background: '#FFECB3', padding: '2px 6px', borderRadius: 4, margin: '0 4px' }}>
                 KeyboardEvent
               </code>
-              do navegador. Exemplo:
+              API. Example:
             </p>
             <pre style={{ background: '#263238', color: '#ECEFF1', padding: 16, borderRadius: 8, marginTop: 12, fontSize: '0.85rem', overflowX: 'auto' }}>
-{`// Simular pressionamento da tecla "1" (Comer)
+{`// Simulate pressing key "1" (Eat)
 window.dispatchEvent(
   new KeyboardEvent('keydown', { key: '1' })
 );
 
-// Simular SOS
+// Simulate SOS
 window.dispatchEvent(
   new KeyboardEvent('keydown', { key: '0' })
 );`}

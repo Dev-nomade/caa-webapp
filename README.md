@@ -1,67 +1,67 @@
-# CognitIA - Comunicação Alternativa e Aumentativa
+# CognitIA - Augmentative and Alternative Communication
 
-Web App acessível focado em Comunicação Alternativa e Aumentativa (CAA) para pessoas no espectro autista. Design minimalista, de alto contraste e com baixa carga cognitiva.
+Accessible Web App focused on Augmentative and Alternative Communication (AAC) for people on the autism spectrum. Minimalist design with high contrast and low cognitive load.
 
-## Funcionalidades
+## Features
 
-### Home Dinâmica
-- **Cards PECS**: Cards com emoji + texto categorizados por cores
-  - Verde: Necessidades biológicas (Comer, Beber, Banhar, Dormir, Banheiro)
-  - Amarelo: Sentimentos (Feliz, Triste, Cansado, Ansioso, Calmo, etc.)
-  - Azul: Ações (Vestir, Passear, Brincar, Estudar, Ouvir Música, Abraçar)
-- **Text-to-Speech**: Ao clicar em um card, o sistema emite voz em português (Web Speech API)
-- **Animação de confirmação**: Feedback visual ao selecionar um card
+### Dynamic Home
+- **PECS Cards**: Cards with emoji + text categorized by color
+  - Green: Biological needs (Eat, Drink, Bathe, Sleep, Bathroom)
+  - Yellow: Feelings (Happy, Sad, Tired, Anxious, Calm, etc.)
+  - Blue: Actions (Get Dressed, Go for a Walk, Play, Study, Listen to Music, Hug)
+- **Text-to-Speech**: Clicking a card triggers voice output in English (Web Speech API)
+- **Confirmation animation**: Visual feedback when selecting a card
 
-### Botões Fixos
-Seis botões de acesso rápido: Comer, Beber, Banhar, Vestir, Dormir, Passear
+### Fixed Buttons
+Six quick-access buttons: Eat, Drink, Bathe, Get Dressed, Sleep, Go for a Walk
 
-### Módulo de IA (Lógica Simulada)
-- Rastreia cliques e horários usando localStorage
-- Exibe banners sugestivos baseados em padrões de uso:
-  - Sugestões de refeições em horários recorrentes
-  - Sugestões de sono à noite
-  - Sugestões de banho à tarde
+### AI Module (Simulated Logic)
+- Tracks clicks and times using localStorage
+- Displays suggestive banners based on usage patterns:
+  - Meal suggestions at recurring times
+  - Sleep suggestions at night
+  - Bath suggestions in the afternoon
 
-### Botão de Emergência SOS
-- Botão vermelho pulsante fixo no cabeçalho
-- Sub-opções: Dor, Barulho Alto, Medo
-- Alerta sonoro suave via Web Audio API
-- Notificação simulada para o cuidador (Notification API)
+### SOS Emergency Button
+- Pulsating red button fixed in the header
+- Sub-options: Pain, Loud Noise, Fear
+- Soft alert sound via Web Audio API
+- Simulated notification to caregiver (Notification API)
 
-### Página de Recursos
-- Lista de reprodução com músicas relaxantes (YouTube embeds)
-- Dicas para o cuidador baseadas em comportamento
-- Guia de atalhos de teclado / botões físicos
+### Resources Page
+- Playlist with relaxing music (YouTube embeds)
+- Caregiver tips based on behavior
+- Keyboard shortcuts / physical buttons guide
 
-### Integração com Botões Físicos
-- Mapeamento de teclas do teclado para funções do app:
-  - `1-6`: Botões fixos (Comer, Beber, Banhar, Vestir, Dormir, Passear)
+### Physical Buttons Integration
+- Keyboard key mapping to app functions:
+  - `1-6`: Fixed buttons (Eat, Drink, Bathe, Get Dressed, Sleep, Go for a Walk)
   - `0`: SOS
-  - `F1-F3`: Opções de emergência (Dor, Barulho Alto, Medo)
-- API de eventos do teclado para integração com dispositivos externos
+  - `F1-F3`: Emergency options (Pain, Loud Noise, Fear)
+- Keyboard event API for integration with external devices
 
-## Tecnologias
+## Technologies
 
 - React 18 + TypeScript
 - Styled Components
 - React Router
 - Web Speech API (Text-to-Speech)
-- Web Audio API (alertas sonoros)
-- Notification API (alertas ao cuidador)
+- Web Audio API (sound alerts)
+- Notification API (caregiver alerts)
 
-## Como executar
+## How to run
 
 ```bash
 npm install
 npm start
 ```
 
-## Acessibilidade
+## Accessibility
 
-- Fonte Atkinson Hyperlegible (alta legibilidade)
-- Alto contraste com cores suaves
-- Botões grandes com bordas arredondadas
-- Suporte completo a navegação por teclado
-- Atributos ARIA para leitores de tela
-- Fundo pastel para reduzir sobrecarga sensorial
-- `aria-live` regions para atualizações dinâmicas
+- Atkinson Hyperlegible font (high legibility)
+- High contrast with soft colors
+- Large buttons with rounded borders
+- Full keyboard navigation support
+- ARIA attributes for screen readers
+- Pastel background to reduce sensory overload
+- `aria-live` regions for dynamic updates

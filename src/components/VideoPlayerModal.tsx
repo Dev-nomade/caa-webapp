@@ -145,7 +145,7 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({ card, onClose }) =>
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       role="dialog"
       aria-modal="true"
-      aria-label={`Vídeo: ${card.label}`}
+      aria-label={`Video: ${card.label}`}
     >
       <Modal ref={modalRef} tabIndex={-1} $category={card.category}>
         <ModalHeader $category={card.category}>
@@ -155,7 +155,7 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({ card, onClose }) =>
           </CardInfo>
           <CloseButton
             onClick={onClose}
-            aria-label="Fechar vídeo"
+            aria-label="Close video"
           >
             X
           </CloseButton>
@@ -163,7 +163,7 @@ const VideoPlayerModal: React.FC<VideoPlayerModalProps> = ({ card, onClose }) =>
         <VideoContainer>
           <VideoIframe
             src={videoSrc}
-            title={`Vídeo sobre ${card.label}`}
+            title={`Video about ${card.label}`}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />

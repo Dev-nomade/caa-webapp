@@ -169,19 +169,18 @@ const SOSModal: React.FC<SOSModalProps> = ({ isOpen, onClose }) => {
     speechService.playAlertSound();
 
     setNotification(
-      `Alerta enviado ao cuidador: "${label}". Aguarde, ajuda está a caminho.`
+      `Alert sent to caregiver: "${label}". Please wait, help is on the way.`
     );
 
-    // Simulate notification to caregiver
     if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification('Alerta CognitIA - SOS', {
+      new Notification('CognitIA Alert - SOS', {
         body: `${label}: ${description}`,
         icon: '🚨',
       });
     } else if ('Notification' in window && Notification.permission !== 'denied') {
       Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
-          new Notification('Alerta CognitIA - SOS', {
+          new Notification('CognitIA Alert - SOS', {
             body: `${label}: ${description}`,
           });
         }
@@ -198,21 +197,21 @@ const SOSModal: React.FC<SOSModalProps> = ({ isOpen, onClose }) => {
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       role="dialog"
       aria-modal="true"
-      aria-label="Emergência SOS"
+      aria-label="SOS Emergency"
     >
       <Modal ref={modalRef} tabIndex={-1}>
         <Title>
           <span role="img" aria-hidden="true">🚨</span>
-          Emergência SOS
+          SOS Emergency
         </Title>
-        <Subtitle>O que está acontecendo? Toque para pedir ajuda.</Subtitle>
+        <Subtitle>What is happening? Tap to ask for help.</Subtitle>
 
         <OptionsGrid>
           {sosOptions.map((option, index) => (
             <OptionButton
               key={option.id}
               onClick={() => handleOptionClick(option.id, option.label, option.description)}
-              aria-label={`${option.label}: ${option.description}. Tecla F${index + 1}`}
+              aria-label={`${option.label}: ${option.description}. Key F${index + 1}`}
             >
               <OptionEmoji role="img" aria-hidden="true">{option.emoji}</OptionEmoji>
               <OptionContent>
@@ -225,8 +224,8 @@ const SOSModal: React.FC<SOSModalProps> = ({ isOpen, onClose }) => {
 
         {notification && <NotificationBanner role="alert">{notification}</NotificationBanner>}
 
-        <CloseButton onClick={onClose} aria-label="Fechar menu de emergência">
-          Fechar
+        <CloseButton onClick={onClose} aria-label="Close emergency menu">
+          Close
         </CloseButton>
       </Modal>
     </Overlay>

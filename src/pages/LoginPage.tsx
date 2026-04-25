@@ -159,7 +159,7 @@ interface LoginPageProps {
 const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+  const [password, setPassword] = useState('');
   const [message, setMessage] = useState<{ text: string; error: boolean } | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -169,7 +169,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     setLoading(true);
 
     setTimeout(() => {
-      const result = login(email, senha);
+      const result = login(email, password);
       setLoading(false);
 
       if (result.success) {
@@ -188,19 +188,19 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     <PageContainer>
       <Card>
         <LogoSection>
-          <LogoEmoji role="img" aria-label="Cérebro">🧠</LogoEmoji>
+          <LogoEmoji role="img" aria-label="Brain">🧠</LogoEmoji>
           <LogoText>CognitIA</LogoText>
-          <Subtitle>Comunicação Alternativa e Aumentativa</Subtitle>
+          <Subtitle>Augmentative and Alternative Communication</Subtitle>
         </LogoSection>
 
         {message && <Message $error={message.error}>{message.text}</Message>}
 
         <Form onSubmit={handleSubmit}>
           <Label>
-            E-mail
+            Email
             <Input
               type="email"
-              placeholder="Digite seu e-mail"
+              placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -209,26 +209,26 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           </Label>
 
           <Label>
-            Senha
+            Password
             <Input
               type="password"
-              placeholder="Digite sua senha"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
+              placeholder="Enter your password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
               autoComplete="current-password"
             />
           </Label>
 
-          <ForgotLink to="/esqueceu-senha">Esqueceu a senha?</ForgotLink>
+          <ForgotLink to="/forgot-password">Forgot password?</ForgotLink>
 
           <SubmitButton type="submit" disabled={loading}>
-            {loading ? 'Entrando...' : 'Entrar'}
+            {loading ? 'Signing in...' : 'Sign in'}
           </SubmitButton>
         </Form>
 
         <FooterLinks>
-          Não tem conta? <StyledLink to="/cadastro">Cadastre-se</StyledLink>
+          Don't have an account? <StyledLink to="/register">Sign up</StyledLink>
         </FooterLinks>
       </Card>
     </PageContainer>

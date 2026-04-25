@@ -20,23 +20,23 @@ class SpeechService {
     this.voicesLoaded = this.voices.length > 0;
   }
 
-  private getPortugueseVoice(): SpeechSynthesisVoice | null {
+  private getEnglishVoice(): SpeechSynthesisVoice | null {
     if (!this.voicesLoaded && this.synth) {
       this.voices = this.synth.getVoices();
     }
 
     return (
       this.voices.find(
-        (v) => v.lang === 'pt-BR'
+        (v) => v.lang === 'en-US'
       ) ||
       this.voices.find(
-        (v) => v.lang.startsWith('pt')
+        (v) => v.lang.startsWith('en')
       ) ||
       null
     );
   }
 
-  speak(text: string, lang: string = 'pt-BR'): void {
+  speak(text: string, lang: string = 'en-US'): void {
     if (!this.synth) {
       console.warn('Speech synthesis not supported');
       this.playConfirmSound();
@@ -45,7 +45,6 @@ class SpeechService {
 
     this.synth.cancel();
 
-    // Chrome bug workaround: resume if paused
     if (this.synth.paused) {
       this.synth.resume();
     }
@@ -56,7 +55,7 @@ class SpeechService {
     utterance.pitch = 1.0;
     utterance.volume = 1.0;
 
-    const voice = this.getPortugueseVoice();
+    const voice = this.getEnglishVoice();
     if (voice) {
       utterance.voice = voice;
     }
@@ -66,9 +65,7 @@ class SpeechService {
       this.playConfirmSound();
     };
 
-    // Chrome bug: long utterances can get stuck. Set a timeout to resume.
     utterance.onstart = () => {
-      // Keep speech synthesis alive (Chrome pauses after ~15s)
       const keepAlive = setInterval(() => {
         if (this.synth && this.synth.speaking) {
           this.synth.resume();
@@ -82,7 +79,6 @@ class SpeechService {
 
     this.synth.speak(utterance);
 
-    // Play a soft confirmation sound alongside
     this.playConfirmSound();
   }
 
@@ -96,7 +92,6 @@ class SpeechService {
     try {
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
 
-      // Soft chime - two pleasant notes
       const playNote = (freq: number, startTime: number, duration: number) => {
         const osc = audioContext.createOscillator();
         const gain = audioContext.createGain();
@@ -117,7 +112,6 @@ class SpeechService {
         osc.stop(audioContext.currentTime + startTime + duration);
       };
 
-      // C5 + E5 chime (pleasant confirmation)
       playNote(523, 0, 0.15);
       playNote(659, 0.08, 0.2);
     } catch {
@@ -148,7 +142,6 @@ class SpeechService {
         osc.stop(audioContext.currentTime + startTime + duration);
       };
 
-      // Gentle three-tone alert (not jarring)
       playTone(440, 0, 0.3, 0.25);
       playTone(520, 0.25, 0.3, 0.25);
       playTone(440, 0.5, 0.4, 0.2);

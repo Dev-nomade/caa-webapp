@@ -31,22 +31,22 @@ const App: React.FC = () => {
   return (
     <Router>
       <GlobalStyles />
-      <div aria-label="CognitIA - Comunicação Alternativa e Aumentativa">
+      <div aria-label="CognitIA - Augmentative and Alternative Communication">
         {isAuthenticated ? (
           <>
             <Header onSOSClick={() => setSOSOpen(true)} onLogout={handleLogout} />
             <SOSModal isOpen={sosOpen} onClose={() => setSOSOpen(false)} />
             <Routes>
               <Route path="/" element={<HomePage onSOSOpen={() => setSOSOpen(true)} />} />
-              <Route path="/recursos" element={<ResourcesPage />} />
+              <Route path="/resources" element={<ResourcesPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
           </>
         ) : (
           <Routes>
             <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
-            <Route path="/cadastro" element={<CadastroPage />} />
-            <Route path="/esqueceu-senha" element={<EsqueceuSenhaPage />} />
+            <Route path="/register" element={<CadastroPage />} />
+            <Route path="/forgot-password" element={<EsqueceuSenhaPage />} />
             <Route path="*" element={<Navigate to="/login" replace />} />
           </Routes>
         )}

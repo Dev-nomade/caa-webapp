@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useNavigate, Link } from 'react-router-dom';
-import { cadastrar } from '../services/authService';
+import { register } from '../services/authService';
 
 const fadeIn = keyframes`
   from { opacity: 0; transform: translateY(20px); }
@@ -140,18 +140,18 @@ const StyledLink = styled(Link)`
   }
 `;
 
-const CadastroPage: React.FC = () => {
+const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
-  const [nomeResponsavel, setNomeResponsavel] = useState('');
+  const [guardianName, setGuardianName] = useState('');
   const [email, setEmail] = useState('');
-  const [telefone, setTelefone] = useState('');
-  const [nomeDependente, setNomeDependente] = useState('');
-  const [senha, setSenha] = useState('');
-  const [confirmarSenha, setConfirmarSenha] = useState('');
+  const [phone, setPhone] = useState('');
+  const [dependentName, setDependentName] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState<{ text: string; error: boolean } | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const formatTelefone = (value: string): string => {
+  const formatPhone = (value: string): string => {
     const digits = value.replace(/\D/g, '').slice(0, 11);
     if (digits.length <= 2) return digits;
     if (digits.length <= 7) return `(${digits.slice(0, 2)}) ${digits.slice(2)}`;
@@ -162,20 +162,20 @@ const CadastroPage: React.FC = () => {
     e.preventDefault();
     setMessage(null);
 
-    if (senha.length < 6) {
-      setMessage({ text: 'A senha deve ter pelo menos 6 caracteres.', error: true });
+    if (password.length < 6) {
+      setMessage({ text: 'Password must be at least 6 characters.', error: true });
       return;
     }
 
-    if (senha !== confirmarSenha) {
-      setMessage({ text: 'As senhas não coincidem.', error: true });
+    if (password !== confirmPassword) {
+      setMessage({ text: 'Passwords do not match.', error: true });
       return;
     }
 
     setLoading(true);
 
     setTimeout(() => {
-      const result = cadastrar(nomeResponsavel, email, telefone, nomeDependente, senha);
+      const result = register(guardianName, email, phone, dependentName, password);
       setMessage({ text: result.message, error: !result.success });
       setLoading(false);
 
@@ -189,31 +189,31 @@ const CadastroPage: React.FC = () => {
     <PageContainer>
       <Card>
         <LogoSection>
-          <LogoEmoji role="img" aria-label="Cérebro">🧠</LogoEmoji>
+          <LogoEmoji role="img" aria-label="Brain">🧠</LogoEmoji>
           <LogoText>CognitIA</LogoText>
-          <Subtitle>Crie sua conta</Subtitle>
+          <Subtitle>Create your account</Subtitle>
         </LogoSection>
 
         {message && <Message $error={message.error}>{message.text}</Message>}
 
         <Form onSubmit={handleSubmit}>
           <Label>
-            Nome completo do responsável
+            Guardian's full name
             <Input
               type="text"
-              placeholder="Ex: Maria da Silva"
-              value={nomeResponsavel}
-              onChange={(e) => setNomeResponsavel(e.target.value)}
+              placeholder="e.g. Jane Smith"
+              value={guardianName}
+              onChange={(e) => setGuardianName(e.target.value)}
               required
               autoComplete="name"
             />
           </Label>
 
           <Label>
-            E-mail do responsável
+            Guardian's email
             <Input
               type="email"
-              placeholder="Ex: maria@email.com"
+              placeholder="e.g. jane@email.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -222,35 +222,35 @@ const CadastroPage: React.FC = () => {
           </Label>
 
           <Label>
-            Telefone do responsável
+            Guardian's phone
             <Input
               type="tel"
               placeholder="(00) 00000-0000"
-              value={telefone}
-              onChange={(e) => setTelefone(formatTelefone(e.target.value))}
+              value={phone}
+              onChange={(e) => setPhone(formatPhone(e.target.value))}
               required
               autoComplete="tel"
             />
           </Label>
 
           <Label>
-            Nome completo da criança / adulto
+            Full name of child / adult
             <Input
               type="text"
-              placeholder="Ex: João da Silva"
-              value={nomeDependente}
-              onChange={(e) => setNomeDependente(e.target.value)}
+              placeholder="e.g. John Smith"
+              value={dependentName}
+              onChange={(e) => setDependentName(e.target.value)}
               required
             />
           </Label>
 
           <Label>
-            Senha
+            Password
             <Input
               type="password"
-              placeholder="Mínimo 6 caracteres"
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
+              placeholder="Minimum 6 characters"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
               minLength={6}
               autoComplete="new-password"
@@ -258,28 +258,28 @@ const CadastroPage: React.FC = () => {
           </Label>
 
           <Label>
-            Confirmar senha
+            Confirm password
             <Input
               type="password"
-              placeholder="Repita a senha"
-              value={confirmarSenha}
-              onChange={(e) => setConfirmarSenha(e.target.value)}
+              placeholder="Repeat your password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               required
               autoComplete="new-password"
             />
           </Label>
 
           <SubmitButton type="submit" disabled={loading}>
-            {loading ? 'Cadastrando...' : 'Cadastrar'}
+            {loading ? 'Registering...' : 'Register'}
           </SubmitButton>
         </Form>
 
         <FooterLinks>
-          Já tem uma conta? <StyledLink to="/login">Fazer login</StyledLink>
+          Already have an account? <StyledLink to="/login">Sign in</StyledLink>
         </FooterLinks>
       </Card>
     </PageContainer>
   );
 };
 
-export default CadastroPage;
+export default RegisterPage;

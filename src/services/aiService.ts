@@ -22,7 +22,6 @@ class AIService {
 
   private saveHistory(): void {
     try {
-      // Keep only last 7 days
       const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
       this.clickHistory = this.clickHistory.filter((r) => r.timestamp > sevenDaysAgo);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.clickHistory));
@@ -61,23 +60,23 @@ class AIService {
     const suggestions: Suggestion[] = [];
 
     const mealTimes = [
-      { start: 6, end: 9, meal: 'café da manhã' },
-      { start: 11, end: 13, meal: 'almoço' },
-      { start: 14, end: 16, meal: 'lanche' },
-      { start: 18, end: 20, meal: 'jantar' },
+      { start: 6, end: 9, meal: 'breakfast' },
+      { start: 11, end: 13, meal: 'lunch' },
+      { start: 14, end: 16, meal: 'snack' },
+      { start: 18, end: 20, meal: 'dinner' },
     ];
 
     for (const { start, end, meal } of mealTimes) {
       if (currentHour >= start && currentHour <= end) {
         const clicksInWindow = this.clickHistory.filter(
-          (r) => r.cardId === 'comer' && r.hour >= start && r.hour <= end
+          (r) => r.cardId === 'eat' && r.hour >= start && r.hour <= end
         );
 
         if (clicksInWindow.length >= 2) {
           suggestions.push({
             id: `meal-${meal}`,
-            message: `Está quase na hora de comer. Você quer ${meal}?`,
-            cardId: 'comer',
+            message: `It's almost time to eat. Would you like ${meal}?`,
+            cardId: 'eat',
             visible: true,
           });
         }
@@ -90,14 +89,14 @@ class AIService {
   private checkSleepPattern(currentHour: number): Suggestion | null {
     if (currentHour >= 20 || currentHour <= 6) {
       const sleepClicks = this.clickHistory.filter(
-        (r) => r.cardId === 'dormir' && (r.hour >= 20 || r.hour <= 6)
+        (r) => r.cardId === 'sleep' && (r.hour >= 20 || r.hour <= 6)
       );
 
       if (sleepClicks.length >= 2) {
         return {
           id: 'sleep-suggestion',
-          message: 'Está ficando tarde. Você quer ir dormir?',
-          cardId: 'dormir',
+          message: 'It\'s getting late. Would you like to go to sleep?',
+          cardId: 'sleep',
           visible: true,
         };
       }
@@ -108,14 +107,14 @@ class AIService {
   private checkBathPattern(currentHour: number): Suggestion | null {
     if (currentHour >= 17 && currentHour <= 20) {
       const bathClicks = this.clickHistory.filter(
-        (r) => r.cardId === 'banhar' && r.hour >= 17 && r.hour <= 20
+        (r) => r.cardId === 'bathe' && r.hour >= 17 && r.hour <= 20
       );
 
       if (bathClicks.length >= 2) {
         return {
           id: 'bath-suggestion',
-          message: 'Está na hora do banho. Você quer tomar banho?',
-          cardId: 'banhar',
+          message: 'It\'s bath time. Would you like to take a bath?',
+          cardId: 'bathe',
           visible: true,
         };
       }

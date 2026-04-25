@@ -1,16 +1,16 @@
 type KeyHandler = (cardId: string) => void;
 
 const KEY_MAP: Record<string, string> = {
-  '1': 'comer',
-  '2': 'beber',
-  '3': 'banhar',
-  '4': 'vestir',
-  '5': 'dormir',
-  '6': 'passear',
+  '1': 'eat',
+  '2': 'drink',
+  '3': 'bathe',
+  '4': 'dress',
+  '5': 'sleep',
+  '6': 'walk',
   '0': 'sos',
-  F1: 'dor',
-  F2: 'barulho',
-  F3: 'medo',
+  F1: 'pain',
+  F2: 'loud-noise',
+  F3: 'fear',
 };
 
 class KeyboardService {

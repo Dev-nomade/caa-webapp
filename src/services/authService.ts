@@ -1,12 +1,12 @@
 export interface User {
-  nomeResponsavel: string;
+  guardianName: string;
   email: string;
-  telefone: string;
-  nomeDependente: string;
+  phone: string;
+  dependentName: string;
 }
 
 interface StoredUser extends User {
-  senha: string;
+  password: string;
 }
 
 const USERS_KEY = 'cognitia_users';
@@ -21,48 +21,48 @@ function saveUsers(users: StoredUser[]): void {
   localStorage.setItem(USERS_KEY, JSON.stringify(users));
 }
 
-export function cadastrar(
-  nomeResponsavel: string,
+export function register(
+  guardianName: string,
   email: string,
-  telefone: string,
-  nomeDependente: string,
-  senha: string
+  phone: string,
+  dependentName: string,
+  password: string
 ): { success: boolean; message: string } {
   const users = getStoredUsers();
   const exists = users.some((u) => u.email.toLowerCase() === email.toLowerCase());
 
   if (exists) {
-    return { success: false, message: 'E-mail já cadastrado.' };
+    return { success: false, message: 'Email already registered.' };
   }
 
-  users.push({ nomeResponsavel, email, telefone, nomeDependente, senha });
+  users.push({ guardianName, email, phone, dependentName, password });
   saveUsers(users);
 
-  return { success: true, message: 'Cadastro realizado com sucesso!' };
+  return { success: true, message: 'Registration successful!' };
 }
 
 export function login(
   email: string,
-  senha: string
+  password: string
 ): { success: boolean; message: string; user?: User } {
   const users = getStoredUsers();
   const found = users.find(
-    (u) => u.email.toLowerCase() === email.toLowerCase() && u.senha === senha
+    (u) => u.email.toLowerCase() === email.toLowerCase() && u.password === password
   );
 
   if (!found) {
-    return { success: false, message: 'E-mail ou senha incorretos.' };
+    return { success: false, message: 'Incorrect email or password.' };
   }
 
   const user: User = {
-    nomeResponsavel: found.nomeResponsavel,
+    guardianName: found.guardianName,
     email: found.email,
-    telefone: found.telefone,
-    nomeDependente: found.nomeDependente,
+    phone: found.phone,
+    dependentName: found.dependentName,
   };
 
   localStorage.setItem(AUTH_KEY, JSON.stringify(user));
-  return { success: true, message: 'Login realizado com sucesso!', user };
+  return { success: true, message: 'Login successful!', user };
 }
 
 export function logout(): void {
@@ -74,16 +74,16 @@ export function getLoggedUser(): User | null {
   return data ? JSON.parse(data) : null;
 }
 
-export function recuperarSenha(email: string): { success: boolean; message: string } {
+export function recoverPassword(email: string): { success: boolean; message: string } {
   const users = getStoredUsers();
   const found = users.some((u) => u.email.toLowerCase() === email.toLowerCase());
 
   if (!found) {
-    return { success: false, message: 'E-mail não encontrado.' };
+    return { success: false, message: 'Email not found.' };
   }
 
   return {
     success: true,
-    message: 'Um link de recuperação foi enviado para o seu e-mail.',
+    message: 'A recovery link has been sent to your email.',
   };
 }
