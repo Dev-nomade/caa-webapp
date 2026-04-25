@@ -1,46 +1,67 @@
-# Getting Started with Create React App
+# CognitIA - Augmentative and Alternative Communication
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Accessible Web App focused on Augmentative and Alternative Communication (AAC) for people on the autism spectrum. Minimalist design with high contrast and low cognitive load.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+### Dynamic Home
+- **PECS Cards**: Cards with emoji + text categorized by color
+  - Green: Biological needs (Eat, Drink, Bathe, Sleep, Bathroom)
+  - Yellow: Feelings (Happy, Sad, Tired, Anxious, Calm, etc.)
+  - Blue: Actions (Get Dressed, Go for a Walk, Play, Study, Listen to Music, Hug)
+- **Text-to-Speech**: Clicking a card triggers voice output in English (Web Speech API)
+- **Confirmation animation**: Visual feedback when selecting a card
 
-### `npm start`
+### Fixed Buttons
+Six quick-access buttons: Eat, Drink, Bathe, Get Dressed, Sleep, Go for a Walk
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### AI Module (Simulated Logic)
+- Tracks clicks and times using localStorage
+- Displays suggestive banners based on usage patterns:
+  - Meal suggestions at recurring times
+  - Sleep suggestions at night
+  - Bath suggestions in the afternoon
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### SOS Emergency Button
+- Pulsating red button fixed in the header
+- Sub-options: Pain, Loud Noise, Fear
+- Soft alert sound via Web Audio API
+- Simulated notification to caregiver (Notification API)
 
-### `npm test`
+### Resources Page
+- Playlist with relaxing music (YouTube embeds)
+- Caregiver tips based on behavior
+- Keyboard shortcuts / physical buttons guide
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Physical Buttons Integration
+- Keyboard key mapping to app functions:
+  - `1-6`: Fixed buttons (Eat, Drink, Bathe, Get Dressed, Sleep, Go for a Walk)
+  - `0`: SOS
+  - `F1-F3`: Emergency options (Pain, Loud Noise, Fear)
+- Keyboard event API for integration with external devices
 
-### `npm run build`
+## Technologies
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- React 18 + TypeScript
+- Styled Components
+- React Router
+- Web Speech API (Text-to-Speech)
+- Web Audio API (sound alerts)
+- Notification API (caregiver alerts)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## How to run
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm install
+npm start
+```
 
-### `npm run eject`
+## Accessibility
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Atkinson Hyperlegible font (high legibility)
+- High contrast with soft colors
+- Large buttons with rounded borders
+- Full keyboard navigation support
+- ARIA attributes for screen readers
+- Pastel background to reduce sensory overload
+- `aria-live` regions for dynamic updates
