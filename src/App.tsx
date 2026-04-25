@@ -1,26 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { GlobalStyles } from './styles/GlobalStyles';
+import Header from './components/Header';
+import SOSModal from './components/SOSModal';
+import HomePage from './pages/HomePage';
+import ResourcesPage from './pages/ResourcesPage';
 
-function App() {
+const App: React.FC = () => {
+  const [sosOpen, setSOSOpen] = useState(false);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <GlobalStyles />
+      <div aria-label="CAA Comunicar - Comunicação Alternativa e Aumentativa">
+        <Header onSOSClick={() => setSOSOpen(true)} />
+        <SOSModal isOpen={sosOpen} onClose={() => setSOSOpen(false)} />
+        <Routes>
+          <Route path="/" element={<HomePage onSOSOpen={() => setSOSOpen(true)} />} />
+          <Route path="/recursos" element={<ResourcesPage />} />
+        </Routes>
+      </div>
+    </Router>
   );
-}
+};
 
 export default App;

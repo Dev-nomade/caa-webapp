@@ -1,46 +1,67 @@
-# Getting Started with Create React App
+# CAA Comunicar - Comunicação Alternativa e Aumentativa
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Web App acessível focado em Comunicação Alternativa e Aumentativa (CAA) para pessoas no espectro autista. Design minimalista, de alto contraste e com baixa carga cognitiva.
 
-## Available Scripts
+## Funcionalidades
 
-In the project directory, you can run:
+### Home Dinâmica
+- **Cards PECS**: Cards com emoji + texto categorizados por cores
+  - Verde: Necessidades biológicas (Comer, Beber, Banhar, Dormir, Banheiro)
+  - Amarelo: Sentimentos (Feliz, Triste, Cansado, Ansioso, Calmo, etc.)
+  - Azul: Ações (Vestir, Passear, Brincar, Estudar, Ouvir Música, Abraçar)
+- **Text-to-Speech**: Ao clicar em um card, o sistema emite voz em português (Web Speech API)
+- **Animação de confirmação**: Feedback visual ao selecionar um card
 
-### `npm start`
+### Botões Fixos
+Seis botões de acesso rápido: Comer, Beber, Banhar, Vestir, Dormir, Passear
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Módulo de IA (Lógica Simulada)
+- Rastreia cliques e horários usando localStorage
+- Exibe banners sugestivos baseados em padrões de uso:
+  - Sugestões de refeições em horários recorrentes
+  - Sugestões de sono à noite
+  - Sugestões de banho à tarde
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Botão de Emergência SOS
+- Botão vermelho pulsante fixo no cabeçalho
+- Sub-opções: Dor, Barulho Alto, Medo
+- Alerta sonoro suave via Web Audio API
+- Notificação simulada para o cuidador (Notification API)
 
-### `npm test`
+### Página de Recursos
+- Lista de reprodução com músicas relaxantes (YouTube embeds)
+- Dicas para o cuidador baseadas em comportamento
+- Guia de atalhos de teclado / botões físicos
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Integração com Botões Físicos
+- Mapeamento de teclas do teclado para funções do app:
+  - `1-6`: Botões fixos (Comer, Beber, Banhar, Vestir, Dormir, Passear)
+  - `0`: SOS
+  - `F1-F3`: Opções de emergência (Dor, Barulho Alto, Medo)
+- API de eventos do teclado para integração com dispositivos externos
 
-### `npm run build`
+## Tecnologias
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- React 18 + TypeScript
+- Styled Components
+- React Router
+- Web Speech API (Text-to-Speech)
+- Web Audio API (alertas sonoros)
+- Notification API (alertas ao cuidador)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Como executar
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm install
+npm start
+```
 
-### `npm run eject`
+## Acessibilidade
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Fonte Atkinson Hyperlegible (alta legibilidade)
+- Alto contraste com cores suaves
+- Botões grandes com bordas arredondadas
+- Suporte completo a navegação por teclado
+- Atributos ARIA para leitores de tela
+- Fundo pastel para reduzir sobrecarga sensorial
+- `aria-live` regions para atualizações dinâmicas
