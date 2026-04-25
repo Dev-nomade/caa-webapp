@@ -94,11 +94,34 @@ const SOSButton = styled.button`
   }
 `;
 
+const LogoutButton = styled.button`
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 25px;
+  padding: 8px 18px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+
+  &:focus-visible {
+    outline: 3px solid white;
+    outline-offset: 2px;
+  }
+`;
+
 interface HeaderProps {
   onSOSClick: () => void;
+  onLogout?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ onSOSClick }) => {
+const Header: React.FC<HeaderProps> = ({ onSOSClick, onLogout }) => {
   const location = useLocation();
 
   return (
@@ -121,6 +144,11 @@ const Header: React.FC<HeaderProps> = ({ onSOSClick }) => {
         >
           SOS
         </SOSButton>
+        {onLogout && (
+          <LogoutButton onClick={onLogout} aria-label="Sair da conta">
+            Sair
+          </LogoutButton>
+        )}
       </Nav>
     </HeaderContainer>
   );
