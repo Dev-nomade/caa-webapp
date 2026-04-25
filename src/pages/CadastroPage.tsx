@@ -163,12 +163,12 @@ const RegisterPage: React.FC = () => {
     setMessage(null);
 
     if (password.length < 6) {
-      setMessage({ text: 'Password must be at least 6 characters.', error: true });
+      setMessage({ text: 'A senha deve ter pelo menos 6 caracteres.', error: true });
       return;
     }
 
     if (password !== confirmPassword) {
-      setMessage({ text: 'Passwords do not match.', error: true });
+      setMessage({ text: 'As senhas não coincidem.', error: true });
       return;
     }
 
@@ -189,19 +189,19 @@ const RegisterPage: React.FC = () => {
     <PageContainer>
       <Card>
         <LogoSection>
-          <LogoEmoji role="img" aria-label="Brain">🧠</LogoEmoji>
+          <LogoEmoji role="img" aria-label="Cérebro">🧠</LogoEmoji>
           <LogoText>CognitIA</LogoText>
-          <Subtitle>Create your account</Subtitle>
+          <Subtitle>Crie sua conta</Subtitle>
         </LogoSection>
 
         {message && <Message $error={message.error}>{message.text}</Message>}
 
         <Form onSubmit={handleSubmit}>
           <Label>
-            Guardian's full name
+            Nome completo do responsável
             <Input
               type="text"
-              placeholder="e.g. Jane Smith"
+              placeholder="Ex: Maria Silva"
               value={guardianName}
               onChange={(e) => setGuardianName(e.target.value)}
               required
@@ -210,10 +210,10 @@ const RegisterPage: React.FC = () => {
           </Label>
 
           <Label>
-            Guardian's email
+            E-mail
             <Input
               type="email"
-              placeholder="e.g. jane@email.com"
+              placeholder="Digite seu e-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -222,22 +222,21 @@ const RegisterPage: React.FC = () => {
           </Label>
 
           <Label>
-            Guardian's phone
+            Telefone
             <Input
               type="tel"
               placeholder="(00) 00000-0000"
               value={phone}
               onChange={(e) => setPhone(formatPhone(e.target.value))}
               required
-              autoComplete="tel"
             />
           </Label>
 
           <Label>
-            Full name of child / adult
+            Nome do dependente
             <Input
               type="text"
-              placeholder="e.g. John Smith"
+              placeholder="Nome da pessoa assistida"
               value={dependentName}
               onChange={(e) => setDependentName(e.target.value)}
               required
@@ -245,23 +244,22 @@ const RegisterPage: React.FC = () => {
           </Label>
 
           <Label>
-            Password
+            Senha
             <Input
               type="password"
-              placeholder="Minimum 6 characters"
+              placeholder="Mínimo 6 caracteres"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              minLength={6}
               autoComplete="new-password"
             />
           </Label>
 
           <Label>
-            Confirm password
+            Confirmar senha
             <Input
               type="password"
-              placeholder="Repeat your password"
+              placeholder="Repita a senha"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
@@ -270,12 +268,12 @@ const RegisterPage: React.FC = () => {
           </Label>
 
           <SubmitButton type="submit" disabled={loading}>
-            {loading ? 'Registering...' : 'Register'}
+            {loading ? 'Cadastrando...' : 'Cadastrar'}
           </SubmitButton>
         </Form>
 
         <FooterLinks>
-          Already have an account? <StyledLink to="/login">Sign in</StyledLink>
+          Já tem conta? <StyledLink to="/login">Faça login</StyledLink>
         </FooterLinks>
       </Card>
     </PageContainer>

@@ -166,10 +166,10 @@ const ForgotPasswordPage: React.FC = () => {
     <PageContainer>
       <Card>
         <LogoSection>
-          <LogoEmoji role="img" aria-label="Brain">🧠</LogoEmoji>
+          <LogoEmoji role="img" aria-label="Cérebro">🧠</LogoEmoji>
           <LogoText>CognitIA</LogoText>
           <Subtitle>
-            Enter your registered email and we will send you a link to reset your password.
+            Digite seu e-mail cadastrado e enviaremos um link para redefinir sua senha.
           </Subtitle>
         </LogoSection>
 
@@ -178,10 +178,10 @@ const ForgotPasswordPage: React.FC = () => {
         {!sent && (
           <Form onSubmit={handleSubmit}>
             <Label>
-              Registered email
+              E-mail cadastrado
               <Input
                 type="email"
-                placeholder="Enter your email"
+                placeholder="Digite seu e-mail"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
@@ -190,13 +190,13 @@ const ForgotPasswordPage: React.FC = () => {
             </Label>
 
             <SubmitButton type="submit" disabled={loading}>
-              {loading ? 'Sending...' : 'Recover password'}
+              {loading ? 'Enviando...' : 'Recuperar senha'}
             </SubmitButton>
           </Form>
         )}
 
         <FooterLinks>
-          <StyledLink to="/login">Back to login</StyledLink>
+          <StyledLink to="/login">Voltar ao login</StyledLink>
         </FooterLinks>
       </Card>
     </PageContainer>

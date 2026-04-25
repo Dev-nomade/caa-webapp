@@ -32,13 +32,13 @@ export function register(
   const exists = users.some((u) => u.email.toLowerCase() === email.toLowerCase());
 
   if (exists) {
-    return { success: false, message: 'Email already registered.' };
+    return { success: false, message: 'E-mail já cadastrado.' };
   }
 
   users.push({ guardianName, email, phone, dependentName, password });
   saveUsers(users);
 
-  return { success: true, message: 'Registration successful!' };
+  return { success: true, message: 'Cadastro realizado com sucesso!' };
 }
 
 export function login(
@@ -51,7 +51,7 @@ export function login(
   );
 
   if (!found) {
-    return { success: false, message: 'Incorrect email or password.' };
+    return { success: false, message: 'E-mail ou senha incorretos.' };
   }
 
   const user: User = {
@@ -62,7 +62,7 @@ export function login(
   };
 
   localStorage.setItem(AUTH_KEY, JSON.stringify(user));
-  return { success: true, message: 'Login successful!', user };
+  return { success: true, message: 'Login realizado com sucesso!', user };
 }
 
 export function logout(): void {
@@ -79,11 +79,11 @@ export function recoverPassword(email: string): { success: boolean; message: str
   const found = users.some((u) => u.email.toLowerCase() === email.toLowerCase());
 
   if (!found) {
-    return { success: false, message: 'Email not found.' };
+    return { success: false, message: 'E-mail não encontrado.' };
   }
 
   return {
     success: true,
-    message: 'A recovery link has been sent to your email.',
+    message: 'Um link de recuperação foi enviado para o seu e-mail.',
   };
 }

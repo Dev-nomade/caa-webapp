@@ -169,25 +169,25 @@ const SOSModal: React.FC<SOSModalProps> = ({ isOpen, onClose }) => {
     speechService.playAlertSound();
 
     setNotification(
-      `Alert sent to caregiver: "${label}". Please wait, help is on the way.`
+      `Alerta enviado ao cuidador: "${label}". Aguarde, a ajuda está a caminho.`
     );
 
     if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification('CognitIA Alert - SOS', {
+      new Notification('CognitIA Alerta - SOS', {
         body: `${label}: ${description}`,
         icon: '🚨',
       });
     } else if ('Notification' in window && Notification.permission !== 'denied') {
       Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
-          new Notification('CognitIA Alert - SOS', {
+          new Notification('CognitIA Alerta - SOS', {
             body: `${label}: ${description}`,
           });
         }
       });
     }
 
-    console.log(`[SOS ALERT] ${optionId}: ${description} - ${new Date().toISOString()}`);
+    console.log(`[ALERTA SOS] ${optionId}: ${description} - ${new Date().toISOString()}`);
   };
 
   if (!isOpen) return null;
@@ -197,21 +197,21 @@ const SOSModal: React.FC<SOSModalProps> = ({ isOpen, onClose }) => {
       onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}
       role="dialog"
       aria-modal="true"
-      aria-label="SOS Emergency"
+      aria-label="SOS Emergência"
     >
       <Modal ref={modalRef} tabIndex={-1}>
         <Title>
           <span role="img" aria-hidden="true">🚨</span>
-          SOS Emergency
+          SOS Emergência
         </Title>
-        <Subtitle>What is happening? Tap to ask for help.</Subtitle>
+        <Subtitle>O que está acontecendo? Toque para pedir ajuda.</Subtitle>
 
         <OptionsGrid>
           {sosOptions.map((option, index) => (
             <OptionButton
               key={option.id}
               onClick={() => handleOptionClick(option.id, option.label, option.description)}
-              aria-label={`${option.label}: ${option.description}. Key F${index + 1}`}
+              aria-label={`${option.label}: ${option.description}. Tecla F${index + 1}`}
             >
               <OptionEmoji role="img" aria-hidden="true">{option.emoji}</OptionEmoji>
               <OptionContent>
@@ -224,8 +224,8 @@ const SOSModal: React.FC<SOSModalProps> = ({ isOpen, onClose }) => {
 
         {notification && <NotificationBanner role="alert">{notification}</NotificationBanner>}
 
-        <CloseButton onClick={onClose} aria-label="Close emergency menu">
-          Close
+        <CloseButton onClick={onClose} aria-label="Fechar menu de emergência">
+          Fechar
         </CloseButton>
       </Modal>
     </Overlay>

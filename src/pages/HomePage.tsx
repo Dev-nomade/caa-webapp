@@ -36,26 +36,14 @@ const FixedButtonsSection = styled.section`
 
 const FixedButtonsGrid = styled.div`
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 12px;
-
-  @media (max-width: 600px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
 `;
 
 const CardsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
-
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
-  }
 `;
 
 const LastSelectedBanner = styled.div`
@@ -163,13 +151,13 @@ const HomePage: React.FC<HomePageProps> = ({ onSOSOpen }) => {
       )}
 
       <KeyboardHint>
-        Use keys 1-6 for quick buttons, 0 for SOS, F1-F3 for emergency options
+        Use as teclas 1-6 para ações rápidas, 0 para SOS, F1-F3 para opções de emergência
       </KeyboardHint>
 
-      <FixedButtonsSection aria-label="Fixed Buttons - Quick Actions">
+      <FixedButtonsSection aria-label="Botões Fixos - Ações Rápidas">
         <SectionTitle $color="#2E7D32">
           <SectionIcon role="img" aria-hidden="true">⭐</SectionIcon>
-          Quick Actions
+          Ações Rápidas
         </SectionTitle>
         <FixedButtonsGrid>
           {fixedCards.map((card) => (
@@ -183,10 +171,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSOSOpen }) => {
         </FixedButtonsGrid>
       </FixedButtonsSection>
 
-      <section aria-label="Feelings">
+      <section aria-label="Sentimentos">
         <SectionTitle $color="#F57F17">
           <SectionIcon role="img" aria-hidden="true">💛</SectionIcon>
-          Feelings
+          Sentimentos
         </SectionTitle>
         <CardsGrid>
           {feelingsCards.map((card) => (
@@ -200,10 +188,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSOSOpen }) => {
       </section>
 
       {biologicalCards.length > 0 && (
-        <section aria-label="Needs">
+        <section aria-label="Necessidades">
           <SectionTitle $color="#2E7D32">
             <SectionIcon role="img" aria-hidden="true">💚</SectionIcon>
-            Needs
+            Necessidades
           </SectionTitle>
           <CardsGrid>
             {biologicalCards.map((card) => (
@@ -217,10 +205,10 @@ const HomePage: React.FC<HomePageProps> = ({ onSOSOpen }) => {
         </section>
       )}
 
-      <section aria-label="Activities">
+      <section aria-label="Atividades">
         <SectionTitle $color="#1565C0">
           <SectionIcon role="img" aria-hidden="true">💙</SectionIcon>
-          Activities
+          Atividades
         </SectionTitle>
         <CardsGrid>
           {actionsCards.map((card) => (

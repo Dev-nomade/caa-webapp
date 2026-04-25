@@ -31,7 +31,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <GlobalStyles />
-      <div aria-label="CognitIA - Augmentative and Alternative Communication">
+      <div aria-label="CognitIA - Comunicação Alternativa e Aumentativa">
         {isAuthenticated ? (
           <>
             <Header onSOSClick={() => setSOSOpen(true)} onLogout={handleLogout} />

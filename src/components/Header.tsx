@@ -126,27 +126,27 @@ const Header: React.FC<HeaderProps> = ({ onSOSClick, onLogout }) => {
 
   return (
     <HeaderContainer role="banner">
-      <Logo to="/" aria-label="CognitIA - Home page">
+      <Logo to="/" aria-label="CognitIA - Página inicial">
         <LogoEmoji role="img" aria-hidden="true">🧠</LogoEmoji>
         CognitIA
       </Logo>
-      <Nav role="navigation" aria-label="Main navigation">
+      <Nav role="navigation" aria-label="Navegação principal">
         <NavLink to="/" $active={location.pathname === '/'}>
-          Home
+          Início
         </NavLink>
         <NavLink to="/resources" $active={location.pathname === '/resources'}>
-          Resources
+          Recursos
         </NavLink>
         <SOSButton
           onClick={onSOSClick}
-          aria-label="SOS emergency button"
-          title="SOS Emergency (Key 0)"
+          aria-label="Botão de emergência SOS"
+          title="SOS Emergência (Tecla 0)"
         >
           SOS
         </SOSButton>
         {onLogout && (
-          <LogoutButton onClick={onLogout} aria-label="Log out">
-            Log out
+          <LogoutButton onClick={onLogout} aria-label="Sair">
+            Sair
           </LogoutButton>
         )}
       </Nav>
