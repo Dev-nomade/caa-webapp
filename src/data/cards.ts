@@ -8,6 +8,7 @@ export const pecsCards: PECSCard[] = [
     category: 'biological',
     emoji: '🍽️',
     description: 'Eu quero comer',
+    videoUrl: 'https://www.youtube.com/embed/KY-VXRqm2Pg',
   },
   {
     id: 'beber',
@@ -15,6 +16,7 @@ export const pecsCards: PECSCard[] = [
     category: 'biological',
     emoji: '🥤',
     description: 'Eu quero beber',
+    videoUrl: 'https://www.youtube.com/embed/6upE2O4QINY',
   },
   {
     id: 'banhar',
@@ -22,6 +24,7 @@ export const pecsCards: PECSCard[] = [
     category: 'biological',
     emoji: '🚿',
     description: 'Eu quero tomar banho',
+    videoUrl: 'https://www.youtube.com/embed/aueefWtXdpM',
   },
   {
     id: 'dormir',
@@ -29,6 +32,7 @@ export const pecsCards: PECSCard[] = [
     category: 'biological',
     emoji: '😴',
     description: 'Eu quero dormir',
+    videoUrl: 'https://www.youtube.com/embed/7xaCG3LbSCw',
   },
   {
     id: 'banheiro',
@@ -36,6 +40,7 @@ export const pecsCards: PECSCard[] = [
     category: 'biological',
     emoji: '🚽',
     description: 'Eu preciso ir ao banheiro',
+    videoUrl: 'https://www.youtube.com/embed/aueefWtXdpM',
   },
   // Sentimentos (Amarelo)
   {
@@ -44,6 +49,7 @@ export const pecsCards: PECSCard[] = [
     category: 'feelings',
     emoji: '😊',
     description: 'Eu estou feliz',
+    videoUrl: 'https://www.youtube.com/embed/SLYx0Kv37Hs',
   },
   {
     id: 'triste',
@@ -51,6 +57,7 @@ export const pecsCards: PECSCard[] = [
     category: 'feelings',
     emoji: '😢',
     description: 'Eu estou triste',
+    videoUrl: 'https://www.youtube.com/embed/9l3jNTZ_qgU',
   },
   {
     id: 'cansado',
@@ -58,6 +65,7 @@ export const pecsCards: PECSCard[] = [
     category: 'feelings',
     emoji: '😩',
     description: 'Eu estou cansado',
+    videoUrl: 'https://www.youtube.com/embed/Z3MorRFqJWc',
   },
   {
     id: 'com-fome',
@@ -65,6 +73,7 @@ export const pecsCards: PECSCard[] = [
     category: 'feelings',
     emoji: '🤤',
     description: 'Eu estou com fome',
+    videoUrl: 'https://www.youtube.com/embed/G_p8uFBgxhM',
   },
   {
     id: 'com-sede',
@@ -72,6 +81,7 @@ export const pecsCards: PECSCard[] = [
     category: 'feelings',
     emoji: '💧',
     description: 'Eu estou com sede',
+    videoUrl: 'https://www.youtube.com/embed/VWXu9H6WVk0',
   },
   {
     id: 'ansioso',
@@ -79,6 +89,7 @@ export const pecsCards: PECSCard[] = [
     category: 'feelings',
     emoji: '😰',
     description: 'Eu estou ansioso',
+    videoUrl: 'https://www.youtube.com/embed/hlWiI4xVXKY',
   },
   {
     id: 'calmo',
@@ -86,6 +97,7 @@ export const pecsCards: PECSCard[] = [
     category: 'feelings',
     emoji: '😌',
     description: 'Eu estou calmo',
+    videoUrl: 'https://www.youtube.com/embed/rYoZgpAEkFs',
   },
   // Ações (Azul)
   {
@@ -94,6 +106,7 @@ export const pecsCards: PECSCard[] = [
     category: 'actions',
     emoji: '👕',
     description: 'Eu quero me vestir',
+    videoUrl: 'https://www.youtube.com/embed/gSEu2od18PQ',
   },
   {
     id: 'passear',
@@ -101,6 +114,7 @@ export const pecsCards: PECSCard[] = [
     category: 'actions',
     emoji: '🚶',
     description: 'Eu quero passear',
+    videoUrl: 'https://www.youtube.com/embed/rYoZgpAEkFs',
   },
   {
     id: 'brincar',
@@ -108,6 +122,7 @@ export const pecsCards: PECSCard[] = [
     category: 'actions',
     emoji: '🎮',
     description: 'Eu quero brincar',
+    videoUrl: 'https://www.youtube.com/embed/gSEu2od18PQ',
   },
   {
     id: 'estudar',
@@ -115,6 +130,7 @@ export const pecsCards: PECSCard[] = [
     category: 'actions',
     emoji: '📚',
     description: 'Eu quero estudar',
+    videoUrl: 'https://www.youtube.com/embed/QkddAGUgASE',
   },
   {
     id: 'ouvir-musica',
@@ -122,6 +138,7 @@ export const pecsCards: PECSCard[] = [
     category: 'actions',
     emoji: '🎵',
     description: 'Eu quero ouvir música',
+    videoUrl: 'https://www.youtube.com/embed/77ZozI0rw7w',
   },
   {
     id: 'abracar',
@@ -129,6 +146,7 @@ export const pecsCards: PECSCard[] = [
     category: 'actions',
     emoji: '🤗',
     description: 'Eu quero um abraço',
+    videoUrl: 'https://www.youtube.com/embed/gSEu2od18PQ',
   },
 ];
 

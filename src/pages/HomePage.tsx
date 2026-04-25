@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styled from 'styled-components';
 import PECSCardComponent from '../components/PECSCardComponent';
 import SuggestionBanner from '../components/SuggestionBanner';
+import VideoPlayerModal from '../components/VideoPlayerModal';
 import { pecsCards } from '../data/cards';
 import { PECSCard, Suggestion } from '../types';
 import { aiService } from '../services/aiService';
@@ -99,9 +100,13 @@ interface HomePageProps {
 const HomePage: React.FC<HomePageProps> = ({ onSOSOpen }) => {
   const [lastSelected, setLastSelected] = useState<PECSCard | null>(null);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [videoCard, setVideoCard] = useState<PECSCard | null>(null);
 
   const handleCardSelect = useCallback((card: PECSCard) => {
     setLastSelected(card);
+    if (card.videoUrl) {
+      setVideoCard(card);
+    }
     const newSuggestions = aiService.getSuggestions();
     setSuggestions(newSuggestions);
   }, []);
@@ -227,6 +232,7 @@ const HomePage: React.FC<HomePageProps> = ({ onSOSOpen }) => {
           ))}
         </CardsGrid>
       </section>
+      <VideoPlayerModal card={videoCard} onClose={() => setVideoCard(null)} />
     </PageContainer>
   );
 };

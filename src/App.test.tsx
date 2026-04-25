@@ -2,9 +2,9 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import App from './App';
 
-test('renders CAA Comunicar header', () => {
+test('renders CognitIA header', () => {
   render(<App />);
-  const headerElement = screen.getByText(/CAA Comunicar/i);
+  const headerElement = screen.getByText(/CognitIA/i);
   expect(headerElement).toBeInTheDocument();
 });
 

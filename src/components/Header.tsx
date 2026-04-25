@@ -103,9 +103,9 @@ const Header: React.FC<HeaderProps> = ({ onSOSClick }) => {
 
   return (
     <HeaderContainer role="banner">
-      <Logo to="/" aria-label="CAA Comunicar - Página inicial">
-        <LogoEmoji role="img" aria-hidden="true">💬</LogoEmoji>
-        CAA Comunicar
+      <Logo to="/" aria-label="CognitIA - Página inicial">
+        <LogoEmoji role="img" aria-hidden="true">🧠</LogoEmoji>
+        CognitIA
       </Logo>
       <Nav role="navigation" aria-label="Navegação principal">
         <NavLink to="/" $active={location.pathname === '/'}>

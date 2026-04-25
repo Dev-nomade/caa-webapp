@@ -174,14 +174,14 @@ const SOSModal: React.FC<SOSModalProps> = ({ isOpen, onClose }) => {
 
     // Simulate notification to caregiver
     if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification('Alerta CAA - SOS', {
+      new Notification('Alerta CognitIA - SOS', {
         body: `${label}: ${description}`,
         icon: '🚨',
       });
     } else if ('Notification' in window && Notification.permission !== 'denied') {
       Notification.requestPermission().then((permission) => {
         if (permission === 'granted') {
-          new Notification('Alerta CAA - SOS', {
+          new Notification('Alerta CognitIA - SOS', {
             body: `${label}: ${description}`,
           });
         }

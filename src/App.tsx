@@ -12,7 +12,7 @@ const App: React.FC = () => {
   return (
     <Router>
       <GlobalStyles />
-      <div aria-label="CAA Comunicar - Comunicação Alternativa e Aumentativa">
+      <div aria-label="CognitIA - Comunicação Alternativa e Aumentativa">
         <Header onSOSClick={() => setSOSOpen(true)} />
         <SOSModal isOpen={sosOpen} onClose={() => setSOSOpen(false)} />
         <Routes>

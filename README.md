@@ -1,4 +1,4 @@
-# CAA Comunicar - Comunicação Alternativa e Aumentativa
+# CognitIA - Comunicação Alternativa e Aumentativa
 
 Web App acessível focado em Comunicação Alternativa e Aumentativa (CAA) para pessoas no espectro autista. Design minimalista, de alto contraste e com baixa carga cognitiva.
 

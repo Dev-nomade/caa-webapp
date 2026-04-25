@@ -4,6 +4,7 @@ export interface PECSCard {
   category: CardCategory;
   emoji: string;
   description: string;
+  videoUrl?: string;
 }
 
 export type CardCategory = 'biological' | 'feelings' | 'actions' | 'emergency';
