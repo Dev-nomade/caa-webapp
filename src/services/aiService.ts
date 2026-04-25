@@ -26,7 +26,7 @@ class AIService {
       this.clickHistory = this.clickHistory.filter((r) => r.timestamp > sevenDaysAgo);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.clickHistory));
     } catch {
-      // localStorage not available
+      // localStorage não disponível
     }
   }
 
@@ -60,10 +60,10 @@ class AIService {
     const suggestions: Suggestion[] = [];
 
     const mealTimes = [
-      { start: 6, end: 9, meal: 'breakfast' },
-      { start: 11, end: 13, meal: 'lunch' },
-      { start: 14, end: 16, meal: 'snack' },
-      { start: 18, end: 20, meal: 'dinner' },
+      { start: 6, end: 9, meal: 'café da manhã' },
+      { start: 11, end: 13, meal: 'almoço' },
+      { start: 14, end: 16, meal: 'lanche' },
+      { start: 18, end: 20, meal: 'jantar' },
     ];
 
     for (const { start, end, meal } of mealTimes) {
@@ -75,7 +75,7 @@ class AIService {
         if (clicksInWindow.length >= 2) {
           suggestions.push({
             id: `meal-${meal}`,
-            message: `It's almost time to eat. Would you like ${meal}?`,
+            message: `Está quase na hora de comer. Você quer ${meal}?`,
             cardId: 'eat',
             visible: true,
           });
@@ -95,7 +95,7 @@ class AIService {
       if (sleepClicks.length >= 2) {
         return {
           id: 'sleep-suggestion',
-          message: 'It\'s getting late. Would you like to go to sleep?',
+          message: 'Está ficando tarde. Você quer ir dormir?',
           cardId: 'sleep',
           visible: true,
         };
@@ -113,7 +113,7 @@ class AIService {
       if (bathClicks.length >= 2) {
         return {
           id: 'bath-suggestion',
-          message: 'It\'s bath time. Would you like to take a bath?',
+          message: 'Está na hora do banho. Você quer tomar banho?',
           cardId: 'bathe',
           visible: true,
         };

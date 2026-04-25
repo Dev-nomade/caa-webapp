@@ -20,25 +20,25 @@ class SpeechService {
     this.voicesLoaded = this.voices.length > 0;
   }
 
-  private getEnglishVoice(): SpeechSynthesisVoice | null {
+  private getPortugueseVoice(): SpeechSynthesisVoice | null {
     if (!this.voicesLoaded && this.synth) {
       this.voices = this.synth.getVoices();
     }
 
     return (
       this.voices.find(
-        (v) => v.lang === 'en-US'
+        (v) => v.lang === 'pt-BR'
       ) ||
       this.voices.find(
-        (v) => v.lang.startsWith('en')
+        (v) => v.lang.startsWith('pt')
       ) ||
       null
     );
   }
 
-  speak(text: string, lang: string = 'en-US'): void {
+  speak(text: string, lang: string = 'pt-BR'): void {
     if (!this.synth) {
-      console.warn('Speech synthesis not supported');
+      console.warn('Síntese de voz não suportada');
       this.playConfirmSound();
       return;
     }
@@ -55,13 +55,13 @@ class SpeechService {
     utterance.pitch = 1.0;
     utterance.volume = 1.0;
 
-    const voice = this.getEnglishVoice();
+    const voice = this.getPortugueseVoice();
     if (voice) {
       utterance.voice = voice;
     }
 
     utterance.onerror = (event) => {
-      console.warn('Speech error:', event.error);
+      console.warn('Erro na fala:', event.error);
       this.playConfirmSound();
     };
 
@@ -115,7 +115,7 @@ class SpeechService {
       playNote(523, 0, 0.15);
       playNote(659, 0.08, 0.2);
     } catch {
-      // AudioContext not available
+      // AudioContext não disponível
     }
   }
 
@@ -146,7 +146,7 @@ class SpeechService {
       playTone(520, 0.25, 0.3, 0.25);
       playTone(440, 0.5, 0.4, 0.2);
     } catch {
-      // AudioContext not available
+      // AudioContext não disponível
     }
   }
 }

@@ -164,13 +164,13 @@ const PECSCardComponent: React.FC<PECSCardComponentProps> = ({ card, keyHint, on
       role="button"
       tabIndex={0}
     >
-      {keyHint && <KeyHint aria-hidden="true">Key {keyHint}</KeyHint>}
+      {keyHint && <KeyHint aria-hidden="true">Tecla {keyHint}</KeyHint>}
       {ripplePos && (
         <RippleEffect style={{ left: ripplePos.x, top: ripplePos.y }} />
       )}
       {showCheck && (
         <CheckOverlay>
-          <CheckIcon role="img" aria-label="Selected">✓</CheckIcon>
+          <CheckIcon role="img" aria-label="Selecionado">✓</CheckIcon>
         </CheckOverlay>
       )}
       <Emoji role="img" aria-hidden="true">

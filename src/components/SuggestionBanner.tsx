@@ -77,9 +77,9 @@ const SuggestionBanner: React.FC<SuggestionBannerProps> = ({ suggestions, onDism
           </BannerContent>
           <DismissButton
             onClick={() => onDismiss(suggestion.id)}
-            aria-label={`Dismiss suggestion: ${suggestion.message}`}
+            aria-label={`Dispensar sugestão: ${suggestion.message}`}
           >
-            Got it
+            Entendi
           </DismissButton>
         </BannerContainer>
       ))}

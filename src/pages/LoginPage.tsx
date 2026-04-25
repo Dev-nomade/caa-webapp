@@ -188,19 +188,19 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
     <PageContainer>
       <Card>
         <LogoSection>
-          <LogoEmoji role="img" aria-label="Brain">🧠</LogoEmoji>
+          <LogoEmoji role="img" aria-label="Cérebro">🧠</LogoEmoji>
           <LogoText>CognitIA</LogoText>
-          <Subtitle>Augmentative and Alternative Communication</Subtitle>
+          <Subtitle>Comunicação Alternativa e Aumentativa</Subtitle>
         </LogoSection>
 
         {message && <Message $error={message.error}>{message.text}</Message>}
 
         <Form onSubmit={handleSubmit}>
           <Label>
-            Email
+            E-mail
             <Input
               type="email"
-              placeholder="Enter your email"
+              placeholder="Digite seu e-mail"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -209,10 +209,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
           </Label>
 
           <Label>
-            Password
+            Senha
             <Input
               type="password"
-              placeholder="Enter your password"
+              placeholder="Digite sua senha"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -220,15 +220,15 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLogin }) => {
             />
           </Label>
 
-          <ForgotLink to="/forgot-password">Forgot password?</ForgotLink>
+          <ForgotLink to="/forgot-password">Esqueceu a senha?</ForgotLink>
 
           <SubmitButton type="submit" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign in'}
+            {loading ? 'Entrando...' : 'Entrar'}
           </SubmitButton>
         </Form>
 
         <FooterLinks>
-          Don't have an account? <StyledLink to="/register">Sign up</StyledLink>
+          Não tem conta? <StyledLink to="/register">Cadastre-se</StyledLink>
         </FooterLinks>
       </Card>
     </PageContainer>
