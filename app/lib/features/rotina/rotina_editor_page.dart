@@ -1,6 +1,5 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
-import '../../data/cards.dart';
 import '../../state/app_state.dart';
 
 /// Cuidador monta a rotina: arrastar para reordenar, deslizar para remover.
@@ -49,7 +48,7 @@ class RotinaEditorPage extends StatelessWidget {
       context: context,
       builder: (_) => ListView(
         children: [
-          for (final c in cartoes)
+          for (final c in s.todos)
             ListTile(
               leading: Text(c.emoji, style: const TextStyle(fontSize: 28)),
               title: Text(c.rotulo),

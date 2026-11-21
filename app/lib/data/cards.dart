@@ -22,8 +22,33 @@ class PecsCard {
   final String frase; // o que será falado
   final String emoji;
   final CardCategory categoria;
+  final String? fotoPath; // foto do cartão personalizado
+  final String? audioPath; // voz gravada pelo familiar
 
-  const PecsCard(this.id, this.rotulo, this.frase, this.emoji, this.categoria);
+  const PecsCard(this.id, this.rotulo, this.frase, this.emoji, this.categoria,
+      {this.fotoPath, this.audioPath});
+
+  bool get personalizado => id.startsWith('c_');
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'rotulo': rotulo,
+        'frase': frase,
+        'emoji': emoji,
+        'categoria': categoria.name,
+        'foto': fotoPath,
+        'audio': audioPath,
+      };
+
+  factory PecsCard.fromJson(Map<String, dynamic> j) => PecsCard(
+        j['id'] as String,
+        j['rotulo'] as String,
+        j['frase'] as String,
+        j['emoji'] as String,
+        CardCategory.values.byName(j['categoria'] as String),
+        fotoPath: j['foto'] as String?,
+        audioPath: j['audio'] as String?,
+      );
 }
 
 const cartoes = <PecsCard>[

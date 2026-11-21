@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import '../../data/cards.dart';
 import '../../state/app_state.dart';
+import '../widgets/card_visual.dart';
 
 /// Rotina do dia para a criança: uma linha do tempo com o passo atual em destaque.
 class RotinaPage extends StatelessWidget {
@@ -66,7 +67,7 @@ class RotinaPage extends StatelessWidget {
                                   children: [
                                     Opacity(
                                       opacity: feito ? 0.4 : 1,
-                                      child: Text(c.emoji, style: const TextStyle(fontSize: 52)),
+                                      child: CardVisual(c, tamanho: 48),
                                     ),
                                     const SizedBox(width: 16),
                                     Expanded(

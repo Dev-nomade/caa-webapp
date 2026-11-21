@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../core/media_service.dart';
 import '../core/tts_service.dart';
 import '../data/cards.dart';
 
@@ -23,12 +24,14 @@ class Sugestao {
 
 /// Estado do app. Tudo fica salvo só no aparelho (SharedPreferences).
 class AppState extends ChangeNotifier {
-  AppState(this.tts, this._prefs, {DateTime Function()? agora})
-      : _agora = agora ?? DateTime.now {
+  AppState(this.tts, this._prefs, {DateTime Function()? agora, MediaService? media})
+      : _agora = agora ?? DateTime.now,
+        media = media ?? MediaService() {
     _carregar();
   }
 
   final TtsService tts;
+  final MediaService media;
   final SharedPreferences _prefs;
   final DateTime Function() _agora;
 
@@ -43,6 +46,7 @@ class AppState extends ChangeNotifier {
   static const rotinaPadrao = ['vestir', 'comer', 'estudar', 'brincar', 'banho', 'comer', 'dormir'];
   List<String> rotina = List.of(rotinaPadrao);
   Set<int> feitos = {};
+  List<PecsCard> personalizados = [];
   String _dataFeitos = '';
 
   String get _hoje {
@@ -61,11 +65,20 @@ class AppState extends ChangeNotifier {
     } catch (_) {
       historico = [];
     }
+    try {
+      personalizados = (_prefs.getStringList('personalizados') ?? [])
+          .map((e) => PecsCard.fromJson(jsonDecode(e) as Map<String, dynamic>))
+          .toList();
+    } catch (_) {
+      personalizados = [];
+    }
     ocultos = (_prefs.getStringList('ocultos') ?? []).toSet();
     pin = _prefs.getString('pin') ?? '1234';
     altoContraste = _prefs.getBool('altoContraste') ?? false;
     colunas = _prefs.getInt('colunas') ?? 2;
-    rotina = _prefs.getStringList('rotina') ?? List.of(rotinaPadrao);
+    rotina = (_prefs.getStringList('rotina') ?? List.of(rotinaPadrao))
+        .where((id) => buscar(id) != null)
+        .toList();
     _dataFeitos = _prefs.getString('rotinaData') ?? '';
     if (_dataFeitos == _hoje) {
       feitos = (_prefs.getStringList('rotinaFeitos') ?? []).map(int.parse).toSet();
@@ -74,7 +87,55 @@ class AppState extends ChangeNotifier {
     }
   }
 
-  PecsCard _card(String id) => cartoes.firstWhere((c) => c.id == id);
+  /// Cartões fixos + cartões criados pela família.
+  List<PecsCard> get todos => [...cartoes, ...personalizados];
+
+  PecsCard? buscar(String id) {
+    for (final c in todos) {
+      if (c.id == id) return c;
+    }
+    return null;
+  }
+
+  PecsCard _card(String id) => buscar(id)!;
+
+  // ---- Cartões personalizados ----
+  void adicionarPersonalizado(PecsCard c) {
+    personalizados.add(c);
+    _salvarPersonalizados();
+    notifyListeners();
+  }
+
+  void removerPersonalizado(String id) {
+    final c = buscar(id);
+    if (c == null || !c.personalizado) return;
+    media.apagar(c.fotoPath);
+    media.apagar(c.audioPath);
+    personalizados.removeWhere((x) => x.id == id);
+    ocultos.remove(id);
+    if (rotina.contains(id)) {
+      rotina.removeWhere((x) => x == id);
+      feitos = {};
+      _salvarRotina();
+      _salvarFeitos();
+    }
+    frase.removeWhere((x) => x.id == id);
+    _prefs.setStringList('ocultos', ocultos.toList());
+    _salvarPersonalizados();
+    notifyListeners();
+  }
+
+  void _salvarPersonalizados() => _prefs.setStringList(
+      'personalizados', personalizados.map((c) => jsonEncode(c.toJson())).toList());
+
+  /// Fala o cartão: usa a voz gravada pela família, se existir.
+  void _dizer(PecsCard c) {
+    if (c.audioPath != null) {
+      media.tocar(c.audioPath!);
+    } else {
+      tts.falar(c.frase);
+    }
+  }
 
   List<PecsCard> get passosRotina => rotina.map(_card).toList();
 
@@ -94,7 +155,7 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void falarPasso(int i) => tts.falar(_card(rotina[i]).frase);
+  void falarPasso(int i) => _dizer(_card(rotina[i]));
 
   void reiniciarRotina() {
     feitos = {};
@@ -134,13 +195,16 @@ class AppState extends ChangeNotifier {
   }
 
   List<PecsCard> get visiveis =>
-      cartoes.where((c) => !ocultos.contains(c.id)).toList();
+      todos.where((c) => !ocultos.contains(c.id)).toList();
+
+  /// Ouvir o cartão sem colocá-lo na frase nem no histórico (prévia do cuidador).
+  void tocarCartaoSemFrase(PecsCard c) => _dizer(c);
 
   // ---- Barra de frase ----
   void tocarCartao(PecsCard c) {
     frase.add(c);
     _registrar(c.id);
-    tts.falar(c.frase);
+    _dizer(c);
     notifyListeners();
   }
 

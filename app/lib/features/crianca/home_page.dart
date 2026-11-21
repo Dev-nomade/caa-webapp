@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../data/cards.dart';
 import '../../state/app_state.dart';
 import '../cuidador/caregiver_page.dart';
+import '../widgets/card_visual.dart';
 import '../rotina/rotina_page.dart';
 import 'sos_sheet.dart';
 
@@ -86,7 +87,7 @@ class _CartaoTile extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(card.emoji, style: const TextStyle(fontSize: 56)),
+              CardVisual(card, tamanho: 56),
               const SizedBox(height: 8),
               Text(card.rotulo,
                   style: Theme.of(context).textTheme.titleMedium),
@@ -127,7 +128,7 @@ class _BarraFrase extends StatelessWidget {
                         for (final c in s.frase)
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 4),
-                            child: Center(child: Text(c.emoji, style: const TextStyle(fontSize: 36))),
+                            child: Center(child: CardVisual(c, tamanho: 30)),
                           )
                       ],
                     ),

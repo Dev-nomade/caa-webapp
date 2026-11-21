@@ -1,9 +1,19 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cognitia/core/media_service.dart';
 import 'package:cognitia/core/tts_service.dart';
 import 'package:cognitia/data/cards.dart';
 import 'package:cognitia/main.dart';
 import 'package:cognitia/state/app_state.dart';
+
+class FakeMedia extends MediaService {
+  final tocados = <String>[];
+  final apagados = <String?>[];
+  @override
+  Future<void> tocar(String caminho) async => tocados.add(caminho);
+  @override
+  Future<void> apagar(String? caminho) async => apagados.add(caminho);
+}
 
 class FakeTts extends TtsService {
   final falas = <String>[];
@@ -13,6 +23,7 @@ class FakeTts extends TtsService {
 
 void main() {
   group("rotina", rotinaTests);
+  group("personalizados", personalizadosTests);
   late FakeTts tts;
   late AppState estado;
 
@@ -102,5 +113,57 @@ void rotinaTests() {
     expect(amanha.passoAtual, 0);
     final mesmoDia = AppState(tts, prefs, agora: () => DateTime(2026, 1, 1, 9));
     expect(mesmoDia.passoAtual, 1);
+  });
+}
+
+void personalizadosTests() {
+  late FakeTts tts;
+  late FakeMedia media;
+  late SharedPreferences prefs;
+  AppState novo() => AppState(tts, prefs, agora: () => DateTime(2026, 1, 1, 8), media: media);
+  const vovo = PecsCard('c_1', 'Vovó', 'Quero ver a vovó', '👵', CardCategory.acoes,
+      fotoPath: '/x/foto.jpg', audioPath: '/x/voz.m4a');
+
+  setUp(() async {
+    SharedPreferences.setMockInitialValues({});
+    prefs = await SharedPreferences.getInstance();
+    tts = FakeTts();
+    media = FakeMedia();
+  });
+
+  test('cartão com voz gravada toca o áudio em vez da voz do celular', () {
+    final s = novo()..adicionarPersonalizado(vovo);
+    s.tocarCartao(vovo);
+    expect(media.tocados, ['/x/voz.m4a']);
+    expect(tts.falas, isEmpty);
+  });
+
+  test('cartão sem áudio usa a voz do celular', () {
+    final s = novo();
+    const sem = PecsCard('c_2', 'Bola', 'Quero a bola', '⚽', CardCategory.acoes);
+    s.adicionarPersonalizado(sem);
+    s.tocarCartao(sem);
+    expect(tts.falas, ['Quero a bola']);
+  });
+
+  test('cartões personalizados persistem e aparecem na lista', () {
+    novo().adicionarPersonalizado(vovo);
+    final s2 = novo();
+    expect(s2.personalizados.single.rotulo, 'Vovó');
+    expect(s2.visiveis.any((c) => c.id == 'c_1'), true);
+  });
+
+  test('apagar remove arquivos, rotina e visibilidade', () {
+    final s = novo()..adicionarPersonalizado(vovo);
+    s.adicionarPasso('c_1');
+    s.removerPersonalizado('c_1');
+    expect(media.apagados, containsAll(['/x/foto.jpg', '/x/voz.m4a']));
+    expect(s.rotina.contains('c_1'), false);
+    expect(s.buscar('c_1'), null);
+  });
+
+  test('cartões fixos não podem ser apagados', () {
+    final s = novo()..removerPersonalizado('comer');
+    expect(s.buscar('comer'), isNotNull);
   });
 }

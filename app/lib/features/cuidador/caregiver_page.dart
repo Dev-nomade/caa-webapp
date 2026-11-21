@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../data/cards.dart';
 import '../../state/app_state.dart';
 import '../rotina/rotina_editor_page.dart';
+import 'cartoes_personalizados_page.dart';
 
 /// Pede o PIN antes de abrir a área do cuidador (evita mudanças sem querer).
 class CaregiverGate extends StatefulWidget {
@@ -86,6 +87,13 @@ class CaregiverPage extends StatelessWidget {
             ),
           ),
           ListTile(
+            leading: const Icon(Icons.add_photo_alternate_outlined),
+            title: const Text('Cartões da família (foto e voz)'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const CartoesPersonalizadosPage())),
+          ),
+          ListTile(
             leading: const Icon(Icons.checklist_rtl),
             title: const Text('Editar rotina visual'),
             trailing: const Icon(Icons.chevron_right),
@@ -94,7 +102,7 @@ class CaregiverPage extends StatelessWidget {
           ),
           const Divider(height: 32),
           Text('Cartões visíveis', style: Theme.of(context).textTheme.titleMedium),
-          for (final c in cartoes)
+          for (final c in s.todos)
             CheckboxListTile(
               secondary: Text(c.emoji, style: const TextStyle(fontSize: 28)),
               title: Text('${c.rotulo}  •  ${c.categoria.nome}'),
@@ -105,11 +113,12 @@ class CaregiverPage extends StatelessWidget {
           Text('Uso nos últimos 7 dias', style: Theme.of(context).textTheme.titleMedium),
           if (ranking.isEmpty) const Padding(padding: EdgeInsets.all(8), child: Text('Ainda sem registros.')),
           for (final e in ranking)
-            ListTile(
-              leading: Text(cartoes.firstWhere((c) => c.id == e.key).emoji, style: const TextStyle(fontSize: 28)),
-              title: Text(cartoes.firstWhere((c) => c.id == e.key).rotulo),
-              trailing: Text('${e.value}x', style: const TextStyle(fontSize: 18)),
-            ),
+            if (s.buscar(e.key) != null)
+              ListTile(
+                leading: Text(s.buscar(e.key)!.emoji, style: const TextStyle(fontSize: 28)),
+                title: Text(s.buscar(e.key)!.rotulo),
+                trailing: Text('${e.value}x', style: const TextStyle(fontSize: 18)),
+              ),
           if (ranking.isNotEmpty)
             TextButton(onPressed: s.limparHistorico, child: const Text('Apagar histórico')),
           const Divider(height: 32),
