@@ -57,55 +57,40 @@ class VideoItem {
   const VideoItem(this.titulo, this.videoId);
 }
 
-/// Um grupo de vídeos (ex.: Peppa Pig) com um atalho de busca no YouTube.
+/// Um grupo de vídeos (ex.: Peppa Pig).
 class GrupoVideos {
-  final String nome, emoji, busca;
+  final String nome, emoji;
   final List<VideoItem> itens;
-  const GrupoVideos(this.nome, this.emoji, this.busca, this.itens);
+  const GrupoVideos(this.nome, this.emoji, this.itens);
 }
 
 const gruposVideos = <GrupoVideos>[
-  GrupoVideos(
-    'Peppa Pig',
-    '🐷',
-    'Peppa Pig Português Brasil episódios completos',
-    [
-      VideoItem('Papai Pig perde suas chaves', 'VUn5t1iqR-4'),
-      VideoItem('Aventura no aeroporto', 'w9I7eV8iCn0'),
-      VideoItem('Um dia no parque aquático', 'DjIUsJylBAM'),
-      VideoItem('Vários episódios completos 1', 'HK6s92pGrbI'),
-      VideoItem('Vários episódios completos 2', 'LDNRGdPVwrg'),
-    ],
-  ),
-  GrupoVideos(
-    'Masha e o Urso',
-    '🐻',
-    'Masha e o Urso episódio completo português',
-    [
-      VideoItem('O poder do banho', 'ZOozD8UGC7Y'),
-      VideoItem('Coração de ouro', 'mUmJ2nxKIuY'),
-      VideoItem('Estação chuvosa', '2r4vBwV7Xd0'),
-      VideoItem('Crianças imprevisíveis', 'DGMJ8SBw1a0'),
-      VideoItem('Todos os episódios dos curtas', 'TewZ-NzfMmw'),
-    ],
-  ),
-  GrupoVideos('Ursinho Pooh', '🍯', 'Ursinho Pooh desenho em português', [
+  GrupoVideos('Peppa Pig', '🐷', [
+    VideoItem('Papai Pig perde suas chaves', 'VUn5t1iqR-4'),
+    VideoItem('Aventura no aeroporto', 'w9I7eV8iCn0'),
+    VideoItem('Um dia no parque aquático', 'DjIUsJylBAM'),
+    VideoItem('Vários episódios completos 1', 'HK6s92pGrbI'),
+    VideoItem('Vários episódios completos 2', 'LDNRGdPVwrg'),
+  ]),
+  GrupoVideos('Masha e o Urso', '🐻', [
+    VideoItem('O poder do banho', 'ZOozD8UGC7Y'),
+    VideoItem('Coração de ouro', 'mUmJ2nxKIuY'),
+    VideoItem('Estação chuvosa', '2r4vBwV7Xd0'),
+    VideoItem('Crianças imprevisíveis', 'DGMJ8SBw1a0'),
+    VideoItem('Todos os episódios dos curtas', 'TewZ-NzfMmw'),
+  ]),
+  GrupoVideos('Ursinho Pooh', '🍯', [
     VideoItem('Ursinho Pooh completo em português', 'AcUSbT9ENoA'),
     VideoItem('Ursinho Pooh Disney', 'cJhR303VDeg'),
   ]),
 ];
 
-const musicasAlfabeto = GrupoVideos(
-  'Alfabeto musical',
-  '🔤',
-  'alfabeto musical ABC música infantil português',
-  [
-    VideoItem('LiaChaCha - ABC, música do alfabeto', 'dNpNqLbm6tM'),
-    VideoItem('ABC em português - aprenda o alfabeto cantando', 'THmAfClxHX0'),
-    VideoItem('Canção do ABC', 'DOI_mvdXcms'),
-    VideoItem('Música do ABC', 'kNAYhwuAC4A'),
-    VideoItem('ABC música - as letras do alfabeto cantadas', '2rveknq8LWI'),
-    VideoItem('Música ABC em português', '-ZBND7ZwAuU'),
-    VideoItem('Alfabeto em português', 'uQRWjl_AJyU'),
-  ],
-);
+const musicasAlfabeto = GrupoVideos('Alfabeto musical', '🔤', [
+  VideoItem('LiaChaCha - ABC, música do alfabeto', 'dNpNqLbm6tM'),
+  VideoItem('ABC em português - aprenda o alfabeto cantando', 'THmAfClxHX0'),
+  VideoItem('Canção do ABC', 'DOI_mvdXcms'),
+  VideoItem('Música do ABC', 'kNAYhwuAC4A'),
+  VideoItem('ABC música - as letras do alfabeto cantadas', '2rveknq8LWI'),
+  VideoItem('Música ABC em português', '-ZBND7ZwAuU'),
+  VideoItem('Alfabeto em português', 'uQRWjl_AJyU'),
+]);

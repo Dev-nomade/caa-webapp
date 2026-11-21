@@ -3,41 +3,114 @@ import 'package:material_ui/material_ui.dart';
 import '../../data/recursos.dart';
 import '../../core/youtube.dart';
 
-/// Botão "Vídeo": desenhos (Peppa Pig, Masha e o Urso, Ursinho Pooh).
+/// Botão "Vídeo": capas lado a lado, tudo junto. Tocar abre direto no YouTube.
 class VideosPage extends StatelessWidget {
   const VideosPage({super.key});
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Vídeo')),
-    body: ListView(
-      padding: const EdgeInsets.all(12),
-      children: [
-        const _Aviso('Toque para assistir no YouTube. Precisa de internet.'),
-        for (final g in gruposVideos) _SecaoVideos(g),
-      ],
-    ),
+  Widget build(BuildContext context) => _GradeVideos(
+    titulo: 'Vídeo',
+    videos: [for (final g in gruposVideos) ...g.itens],
   );
 }
 
-/// Botão "Música": alfabeto musical e músicas para relaxar.
+/// Botão "Música": mesmas capas (alfabeto musical e músicas para relaxar).
 class MusicasPage extends StatelessWidget {
   const MusicasPage({super.key});
 
   @override
+  Widget build(BuildContext context) => _GradeVideos(
+    titulo: 'Música',
+    videos: [
+      ...musicasAlfabeto.itens,
+      for (final m in musicasRelaxantes) VideoItem(m.titulo, m.videoId),
+    ],
+  );
+}
+
+class _GradeVideos extends StatelessWidget {
+  const _GradeVideos({required this.titulo, required this.videos});
+  final String titulo;
+  final List<VideoItem> videos;
+
+  @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(title: const Text('Música')),
-    body: ListView(
+    appBar: AppBar(title: Text(titulo)),
+    body: GridView.builder(
       padding: const EdgeInsets.all(12),
-      children: [
-        const _Aviso('Toque para ouvir no YouTube. Precisa de internet.'),
-        const _SecaoVideos(musicasAlfabeto),
-        const _Titulo('🌿', 'Para relaxar'),
-        for (final m in musicasRelaxantes)
-          _Linha(titulo: m.titulo, subtitulo: m.artista, videoId: m.videoId),
-      ],
+      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+        maxCrossAxisExtent: 320, // mais colunas em telas largas
+        mainAxisSpacing: 12,
+        crossAxisSpacing: 12,
+        childAspectRatio: 1.2,
+      ),
+      itemCount: videos.length,
+      itemBuilder: (_, i) => _CapaVideo(videos[i]),
     ),
   );
+}
+
+class _CapaVideo extends StatelessWidget {
+  const _CapaVideo(this.video);
+  final VideoItem video;
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      button: true,
+      label: 'Assistir ${video.titulo} no YouTube',
+      child: Card(
+        clipBehavior: Clip.antiAlias,
+        margin: EdgeInsets.zero,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        child: InkWell(
+          onTap: () => abrirNoYoutube(video.videoId),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Image.network(
+                      'https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg',
+                      fit: BoxFit.cover,
+                      webHtmlElementStrategy: WebHtmlElementStrategy.fallback,
+                      errorBuilder: (_, _, _) => const ColoredBox(
+                        color: Color(0xFFBBD8F5),
+                        child: Center(
+                          child: Text('🎬', style: TextStyle(fontSize: 48)),
+                        ),
+                      ),
+                    ),
+                    const Center(
+                      child: Icon(
+                        Icons.play_circle_fill,
+                        size: 56,
+                        color: Colors.white70,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Text(
+                  video.titulo,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 /// Dicas para o cuidador (aberta pela área do cuidador).
@@ -72,66 +145,5 @@ class DicasPage extends StatelessWidget {
           ),
       ],
     ),
-  );
-}
-
-class _Aviso extends StatelessWidget {
-  const _Aviso(this.texto);
-  final String texto;
-  @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.all(8),
-    child: Text(texto, style: const TextStyle(fontSize: 18)),
-  );
-}
-
-class _Titulo extends StatelessWidget {
-  const _Titulo(this.emoji, this.texto);
-  final String emoji, texto;
-  @override
-  Widget build(BuildContext context) => Padding(
-    padding: const EdgeInsets.fromLTRB(8, 12, 8, 4),
-    child: Text(
-      '$emoji  $texto',
-      style: Theme.of(context).textTheme.titleMedium,
-    ),
-  );
-}
-
-class _Linha extends StatelessWidget {
-  const _Linha({required this.titulo, required this.videoId, this.subtitulo});
-  final String titulo, videoId;
-  final String? subtitulo;
-  @override
-  Widget build(BuildContext context) => Card(
-    child: ListTile(
-      contentPadding: const EdgeInsets.all(12),
-      leading: const Icon(Icons.play_circle_fill, size: 44),
-      title: Text(titulo, style: const TextStyle(fontSize: 19)),
-      subtitle: subtitulo == null ? null : Text(subtitulo!),
-      trailing: const Icon(Icons.open_in_new),
-      onTap: () => abrirNoYoutube(videoId),
-    ),
-  );
-}
-
-class _SecaoVideos extends StatelessWidget {
-  const _SecaoVideos(this.grupo);
-  final GrupoVideos grupo;
-  @override
-  Widget build(BuildContext context) => Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      _Titulo(grupo.emoji, grupo.nome),
-      for (final v in grupo.itens) _Linha(titulo: v.titulo, videoId: v.videoId),
-      Align(
-        alignment: Alignment.centerLeft,
-        child: TextButton.icon(
-          onPressed: () => buscarNoYoutube(grupo.busca),
-          icon: const Icon(Icons.search),
-          label: Text('Ver mais de ${grupo.nome} no YouTube'),
-        ),
-      ),
-    ],
   );
 }
