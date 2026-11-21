@@ -85,7 +85,6 @@ class NovoCartaoPage extends StatefulWidget {
 
 class _NovoCartaoPageState extends State<NovoCartaoPage> {
   final _nome = TextEditingController();
-  final _frase = TextEditingController();
   final _emoji = TextEditingController();
   CardCategory _cat = CardCategory.acoes;
   String? _foto;
@@ -95,7 +94,6 @@ class _NovoCartaoPageState extends State<NovoCartaoPage> {
   @override
   void dispose() {
     _nome.dispose();
-    _frase.dispose();
     _emoji.dispose();
     super.dispose();
   }
@@ -142,12 +140,11 @@ class _NovoCartaoPageState extends State<NovoCartaoPage> {
   void _salvar() {
     final nome = _nome.text.trim();
     if (nome.isEmpty) return;
-    final frase = _frase.text.trim().isEmpty ? nome : _frase.text.trim();
     final emoji = _emoji.text.trim().isEmpty ? '⭐' : _emoji.text.trim();
     context.read<AppState>().adicionarPersonalizado(PecsCard(
           'c_${DateTime.now().millisecondsSinceEpoch}',
           nome,
-          frase,
+          nome,
           emoji,
           _cat,
           fotoPath: _foto,
@@ -170,13 +167,6 @@ class _NovoCartaoPageState extends State<NovoCartaoPage> {
             onChanged: (_) => setState(() {}),
             decoration: const InputDecoration(
                 labelText: 'Nome do cartão (ex.: Vovó)', border: OutlineInputBorder()),
-          ),
-          const SizedBox(height: 12),
-          TextField(
-            controller: _frase,
-            decoration: const InputDecoration(
-                labelText: 'O que será falado (ex.: Quero ver a vovó)',
-                border: OutlineInputBorder()),
           ),
           const SizedBox(height: 12),
           SegmentedButton<CardCategory>(

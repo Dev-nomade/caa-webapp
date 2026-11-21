@@ -36,7 +36,7 @@ void main() {
 
   test('tocar cartão fala a frase e entra na barra', () {
     estado.tocarCartao(cartoes.first);
-    expect(tts.falas, ['Eu quero comer']);
+    expect(tts.falas, ['Comer']);
     expect(estado.frase.length, 1);
   });
 
@@ -143,7 +143,7 @@ void personalizadosTests() {
     const sem = PecsCard('c_2', 'Bola', 'Quero a bola', '⚽', CardCategory.acoes);
     s.adicionarPersonalizado(sem);
     s.tocarCartao(sem);
-    expect(tts.falas, ['Quero a bola']);
+    expect(tts.falas, ['Bola']);
   });
 
   test('cartões personalizados persistem e aparecem na lista', () {

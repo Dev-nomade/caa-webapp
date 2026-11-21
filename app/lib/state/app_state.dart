@@ -128,12 +128,12 @@ class AppState extends ChangeNotifier {
   void _salvarPersonalizados() => _prefs.setStringList(
       'personalizados', personalizados.map((c) => jsonEncode(c.toJson())).toList());
 
-  /// Fala o cartão: usa a voz gravada pela família, se existir.
+  /// Fala só a palavra do cartão (ex.: "Comer"); usa a voz gravada pela família, se existir.
   void _dizer(PecsCard c) {
     if (c.audioPath != null) {
       media.tocar(c.audioPath!);
     } else {
-      tts.falar(c.frase);
+      tts.falar(c.rotulo);
     }
   }
 

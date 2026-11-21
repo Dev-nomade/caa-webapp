@@ -7,12 +7,11 @@ App gratuito e offline de **Comunicação Aumentativa e Alternativa (CAA)** para
 
 ## Recursos (v2)
 - **Modo Criança**: cartões PECS grandes por cor (verde necessidades, amarelo sentimentos, azul ações), voz em português do Brasil.
-- **Barra de frase**: toque em vários cartões e ouça a frase.
 - **SOS**: Dor, Barulho alto e Medo, com vibração e fala.
 - **Área do cuidador** (PIN, padrão 1234): ocultar cartões, alto contraste, tamanho da grade, relatório de uso de 7 dias.
 - **Rotina visual**: passos do dia em sequência, passo atual em destaque, marcar como feito (recomeça todo dia); o cuidador monta e reordena.
 - **Cartões da família**: o cuidador cria cartões com foto (câmera ou galeria) e voz gravada de alguém conhecido; tudo fica só no aparelho (foto e voz funcionam no Android).
-- **Sugestões locais** por horário e hábito (sem IA remota).
+
 
 ## Como rodar
 ```bash
