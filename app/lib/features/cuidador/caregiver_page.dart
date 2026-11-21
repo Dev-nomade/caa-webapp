@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 import '../../data/cards.dart';
 import '../../state/app_state.dart';
+import '../rotina/rotina_editor_page.dart';
 
 /// Pede o PIN antes de abrir a área do cuidador (evita mudanças sem querer).
 class CaregiverGate extends StatefulWidget {
@@ -83,6 +84,13 @@ class CaregiverPage extends StatelessWidget {
               selected: {s.colunas},
               onSelectionChanged: (v) => s.definirColunas(v.first),
             ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.checklist_rtl),
+            title: const Text('Editar rotina visual'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.push(context,
+                MaterialPageRoute(builder: (_) => const RotinaEditorPage())),
           ),
           const Divider(height: 32),
           Text('Cartões visíveis', style: Theme.of(context).textTheme.titleMedium),

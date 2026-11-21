@@ -12,6 +12,7 @@ class FakeTts extends TtsService {
 }
 
 void main() {
+  group("rotina", rotinaTests);
   late FakeTts tts;
   late AppState estado;
 
@@ -55,5 +56,51 @@ void main() {
     await t.pumpWidget(CognitiaApp(estado: estado));
     expect(find.text('Comer'), findsOneWidget);
     expect(find.text('SOS'), findsOneWidget);
+  });
+}
+
+void rotinaTests() {
+  late FakeTts tts;
+  late AppState estado;
+  setUp(() async {
+    SharedPreferences.setMockInitialValues({});
+    tts = FakeTts();
+    estado = AppState(tts, await SharedPreferences.getInstance(),
+        agora: () => DateTime(2026, 1, 1, 8));
+  });
+
+  test('rotina: passo atual avança ao concluir', () {
+    expect(estado.passoAtual, 0);
+    estado.concluirPasso(0);
+    expect(estado.passoAtual, 1);
+    expect(tts.falas.last, contains('Muito bem'));
+  });
+
+  test('rotina: concluir tudo retorna -1 e reiniciar zera', () {
+    for (var i = 0; i < estado.rotina.length; i++) {
+      estado.concluirPasso(i);
+    }
+    expect(estado.passoAtual, -1);
+    estado.reiniciarRotina();
+    expect(estado.passoAtual, 0);
+  });
+
+  test('rotina: adicionar, mover e remover passos', () {
+    final n = estado.rotina.length;
+    estado.adicionarPasso('musica');
+    expect(estado.rotina.length, n + 1);
+    estado.moverPasso(n, 0);
+    expect(estado.rotina.first, 'musica');
+    estado.removerPasso(0);
+    expect(estado.rotina.length, n);
+  });
+
+  test('rotina: progresso zera em novo dia', () async {
+    estado.concluirPasso(0);
+    final prefs = await SharedPreferences.getInstance();
+    final amanha = AppState(tts, prefs, agora: () => DateTime(2026, 1, 2, 8));
+    expect(amanha.passoAtual, 0);
+    final mesmoDia = AppState(tts, prefs, agora: () => DateTime(2026, 1, 1, 9));
+    expect(mesmoDia.passoAtual, 1);
   });
 }

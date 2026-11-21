@@ -39,6 +39,17 @@ class AppState extends ChangeNotifier {
   bool altoContraste = false;
   int colunas = 2;
 
+  // ---- Rotina visual ----
+  static const rotinaPadrao = ['vestir', 'comer', 'estudar', 'brincar', 'banho', 'comer', 'dormir'];
+  List<String> rotina = List.of(rotinaPadrao);
+  Set<int> feitos = {};
+  String _dataFeitos = '';
+
+  String get _hoje {
+    final d = _agora();
+    return '${d.year}-${d.month}-${d.day}';
+  }
+
   void _carregar() {
     try {
       final h = _prefs.getString('historico');
@@ -54,6 +65,72 @@ class AppState extends ChangeNotifier {
     pin = _prefs.getString('pin') ?? '1234';
     altoContraste = _prefs.getBool('altoContraste') ?? false;
     colunas = _prefs.getInt('colunas') ?? 2;
+    rotina = _prefs.getStringList('rotina') ?? List.of(rotinaPadrao);
+    _dataFeitos = _prefs.getString('rotinaData') ?? '';
+    if (_dataFeitos == _hoje) {
+      feitos = (_prefs.getStringList('rotinaFeitos') ?? []).map(int.parse).toSet();
+    } else {
+      feitos = {}; // novo dia: a rotina recomeça
+    }
+  }
+
+  PecsCard _card(String id) => cartoes.firstWhere((c) => c.id == id);
+
+  List<PecsCard> get passosRotina => rotina.map(_card).toList();
+
+  /// Índice do primeiro passo ainda não feito (ou -1 se tudo concluído).
+  int get passoAtual {
+    for (var i = 0; i < rotina.length; i++) {
+      if (!feitos.contains(i)) return i;
+    }
+    return -1;
+  }
+
+  void concluirPasso(int i) {
+    if (i < 0 || i >= rotina.length) return;
+    feitos.contains(i) ? feitos.remove(i) : feitos.add(i);
+    if (feitos.contains(i)) tts.falar('${_card(rotina[i]).rotulo} feito. Muito bem!');
+    _salvarFeitos();
+    notifyListeners();
+  }
+
+  void falarPasso(int i) => tts.falar(_card(rotina[i]).frase);
+
+  void reiniciarRotina() {
+    feitos = {};
+    _salvarFeitos();
+    notifyListeners();
+  }
+
+  void adicionarPasso(String id) {
+    rotina.add(id);
+    _salvarRotina();
+    notifyListeners();
+  }
+
+  void removerPasso(int i) {
+    rotina.removeAt(i);
+    feitos = {}; // índices mudaram
+    _salvarRotina();
+    _salvarFeitos();
+    notifyListeners();
+  }
+
+  void moverPasso(int de, int para) {
+    final item = rotina.removeAt(de);
+    rotina.insert(para, item);
+    feitos = {};
+    _salvarRotina();
+    _salvarFeitos();
+    notifyListeners();
+  }
+
+  void _salvarRotina() => _prefs.setStringList('rotina', rotina);
+
+  void _salvarFeitos() {
+    _dataFeitos = _hoje;
+    _prefs.setString('rotinaData', _dataFeitos);
+    _prefs.setStringList('rotinaFeitos', feitos.map((e) => '$e').toList());
   }
 
   List<PecsCard> get visiveis =>

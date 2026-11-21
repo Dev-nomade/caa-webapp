@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../data/cards.dart';
 import '../../state/app_state.dart';
 import '../cuidador/caregiver_page.dart';
+import '../rotina/rotina_page.dart';
 import 'sos_sheet.dart';
 
 /// Modo Criança: poucos elementos, botões grandes, sem texto longo.
@@ -30,6 +31,13 @@ class HomePage extends StatelessWidget {
                 label: const Text('SOS'),
               ),
             ),
+          ),
+          IconButton(
+            tooltip: 'Minha rotina',
+            iconSize: 32,
+            icon: const Icon(Icons.checklist_rtl),
+            onPressed: () => Navigator.push(
+                context, MaterialPageRoute(builder: (_) => const RotinaPage())),
           ),
           IconButton(
             tooltip: 'Área do cuidador',

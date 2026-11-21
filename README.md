@@ -10,6 +10,7 @@ App gratuito e offline de **Comunicação Aumentativa e Alternativa (CAA)** para
 - **Barra de frase**: toque em vários cartões e ouça a frase.
 - **SOS**: Dor, Barulho alto e Medo, com vibração e fala.
 - **Área do cuidador** (PIN, padrão 1234): ocultar cartões, alto contraste, tamanho da grade, relatório de uso de 7 dias.
+- **Rotina visual**: passos do dia em sequência, passo atual em destaque, marcar como feito (recomeça todo dia); o cuidador monta e reordena.
 - **Sugestões locais** por horário e hábito (sem IA remota).
 
 ## Como rodar
@@ -28,4 +29,4 @@ flutter build apk --release
 ```
 
 ## Próximos passos
-Rotina visual, cartões com foto e voz do familiar, pictogramas ARASAAC (verificar licença), assinatura do APK e página de download.
+Cartões com foto e voz do familiar, pictogramas ARASAAC (verificar licença), assinatura do APK e página de download.
