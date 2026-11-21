@@ -1,0 +1,44 @@
+name: Gerar APK (Android)
+
+on:
+  push:
+    branches: [main, 'claude/**']
+    paths: ['app/**', '.github/workflows/android-apk.yml']
+    tags: ['v*'] # ex.: v0.1.0 cria uma Release com o APK para download
+  workflow_dispatch:
+
+permissions:
+  contents: write # necessário para criar a Release
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      - run: flutter build apk --release
+      - name: Renomear APK
+        run: cp build/app/outputs/flutter-apk/app-release.apk cognitia.apk
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cognitia-apk
+          path: app/cognitia.apk
+          retention-days: 30
+      - name: Publicar na aba Releases (só em tags)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: app/cognitia.apk

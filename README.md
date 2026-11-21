@@ -28,5 +28,10 @@ flutter build apk --release
 # arquivo: build/app/outputs/flutter-apk/app-release.apk
 ```
 
+## Ver o app online e baixar o APK (GitHub Actions)
+- **Versão web (GitHub Pages):** ative em *Settings → Pages → Source: GitHub Actions*. O workflow `web-pages.yml` publica em `https://<usuario>.github.io/caa-webapp/` a cada push na `main`, ou manualmente em *Actions → Publicar versão web → Run workflow*.
+- **APK Android:** o workflow `android-apk.yml` roda a cada push (na `main` e em `claude/**`). Baixe em *Actions → execução → Artifacts → cognitia-apk*. Para uma página de download pública, crie uma tag: `git tag v0.1.0 && git push origin v0.1.0` e o APK aparece em *Releases*.
+- O APK é assinado com chave de depuração (serve para testar e instalar). Para Play Store seria preciso uma chave própria.
+
 ## Próximos passos
 Cartões com foto e voz do familiar, pictogramas ARASAAC (verificar licença), assinatura do APK e página de download.
