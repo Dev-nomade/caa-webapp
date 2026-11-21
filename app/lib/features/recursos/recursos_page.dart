@@ -14,7 +14,7 @@ class VideosPage extends StatelessWidget {
   );
 }
 
-/// Botão "Música": mesmas capas (alfabeto musical e músicas para relaxar).
+/// Botão "Música": alfabeto musical, Galinha Pintadinha e Palavra Cantada.
 class MusicasPage extends StatelessWidget {
   const MusicasPage({super.key});
 
@@ -23,7 +23,8 @@ class MusicasPage extends StatelessWidget {
     titulo: 'Música',
     videos: [
       ...musicasAlfabeto.itens,
-      for (final m in musicasRelaxantes) VideoItem(m.titulo, m.videoId),
+      ...musicasGalinhaPintadinha.itens,
+      ...musicasPalavraCantada.itens,
     ],
   );
 }

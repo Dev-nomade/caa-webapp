@@ -231,9 +231,13 @@ void personalizadosTests() {
 
 void videosTests() {
   final todos = [
-    for (final g in [...gruposVideos, musicasAlfabeto])
+    for (final g in [
+      ...gruposVideos,
+      musicasAlfabeto,
+      musicasGalinhaPintadinha,
+      musicasPalavraCantada,
+    ])
       ...g.itens.map((v) => v.videoId),
-    ...musicasRelaxantes.map((m) => m.videoId),
   ];
 
   test('vídeos: códigos têm 11 caracteres e não se repetem', () {
@@ -250,5 +254,7 @@ void videosTests() {
     final nomes = gruposVideos.map((g) => g.nome).toList();
     expect(nomes, containsAll(['Peppa Pig', 'Masha e o Urso', 'Ursinho Pooh']));
     expect(musicasAlfabeto.itens, isNotEmpty);
+    expect(musicasGalinhaPintadinha.itens, isNotEmpty);
+    expect(musicasPalavraCantada.itens, isNotEmpty);
   });
 }

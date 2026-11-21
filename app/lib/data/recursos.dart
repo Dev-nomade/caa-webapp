@@ -3,11 +3,6 @@ class Dica {
   const Dica(this.titulo, this.texto);
 }
 
-class Musica {
-  final String titulo, artista, videoId;
-  const Musica(this.titulo, this.artista, this.videoId);
-}
-
 const dicasCuidador = <Dica>[
   Dica(
     'Rotina consistente',
@@ -41,13 +36,6 @@ const dicasCuidador = <Dica>[
     'Hora de dormir',
     'Crie uma rotina de sono relaxante e constante. Reduza estímulos visuais e sonoros antes de dormir. Considere luzes noturnas suaves e cobertores pesados.',
   ),
-];
-
-const musicasRelaxantes = <Musica>[
-  Musica('Música relaxante para crianças', 'Sons da natureza', 'hlWiI4xVXKY'),
-  Musica('Canções calmas para crianças', 'Canções de ninar', '77ZozI0rw7w'),
-  Musica('Sons da natureza - Pássaros', 'Natureza', 'rYoZgpAEkFs'),
-  Musica('Música clássica para relaxar', 'Clássicos', 'HMnrl0tmd3k'),
 ];
 
 /// Um vídeo do YouTube. Para trocar ou acrescentar vídeos, edite as listas abaixo:
@@ -93,4 +81,21 @@ const musicasAlfabeto = GrupoVideos('Alfabeto musical', '🔤', [
   VideoItem('ABC música - as letras do alfabeto cantadas', '2rveknq8LWI'),
   VideoItem('Música ABC em português', '-ZBND7ZwAuU'),
   VideoItem('Alfabeto em português', 'uQRWjl_AJyU'),
+]);
+
+const musicasGalinhaPintadinha = GrupoVideos('Galinha Pintadinha', '🐔', [
+  VideoItem('Upa Cavalinho', 'Fn9adh4HWUU'),
+  VideoItem('Parabéns da Galinha Pintadinha', 'YPSsFqnsfWI'),
+  VideoItem('Os Pintinhos Dizem', 'DuytLEqJFHo'),
+  VideoItem('ABC', 'AZG9gbT_L0k'),
+  VideoItem('Seu Lobato', 'r9HAQ6nXk-0'),
+  VideoItem('Galinha do Vizinho', 'jc-vTAaK7Rs'),
+]);
+
+const musicasPalavraCantada = GrupoVideos('Palavra Cantada', '🎶', [
+  VideoItem('Sopa', '6FNxfgzXV8w'),
+  VideoItem('Coloridos', 'x8VNNyobJRo'),
+  VideoItem('Dança da Máscara', 'd0l0uPyMCsk'),
+  VideoItem('África', 'mj52gIpAMp0'),
+  VideoItem('Turma do Parque', 'P2bfuLliJVA'),
 ]);

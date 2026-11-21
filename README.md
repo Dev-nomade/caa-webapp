@@ -9,7 +9,7 @@ App gratuito e offline de **Comunicação Aumentativa e Alternativa (CAA)** para
 - **Modo Criança**: cartões PECS grandes por cor (verde necessidades, amarelo sentimentos, azul ações), voz em português do Brasil.
 - **SOS**: Dor, Barulho alto e Medo, com vibração e fala.
 - **Área do cuidador** (PIN, padrão 1234): ocultar cartões, alto contraste, tamanho da grade, relatório de uso de 7 dias.
-- **Vídeo**: desenhos (Peppa Pig, Masha e o Urso, Ursinho Pooh). **Música**: alfabeto musical e músicas para relaxar. Dicas para o cuidador ficam na área do cuidador. **Vídeos** nos cartões (internet; desligados por padrão, ligue na área do cuidador). **Alerta sonoro suave** no SOS.
+- **Vídeo**: desenhos (Peppa Pig, Masha e o Urso, Ursinho Pooh). **Música**: alfabeto musical, Galinha Pintadinha e Palavra Cantada. Dicas para o cuidador ficam na área do cuidador. **Vídeos** nos cartões (internet; desligados por padrão, ligue na área do cuidador). **Alerta sonoro suave** no SOS.
 - **Rotina visual**: passos do dia em sequência, passo atual em destaque, marcar como feito (recomeça todo dia); o cuidador monta e reordena.
 - **Cartões da família**: o cuidador cria cartões com foto (câmera ou galeria) e voz gravada de alguém conhecido; tudo fica só no aparelho (foto e voz funcionam no Android).
 
