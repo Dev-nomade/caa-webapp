@@ -1,4 +1,5 @@
 import 'package:material_ui/material_ui.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 /// Abre um vídeo do YouTube em uma janela (precisa de internet).
@@ -66,9 +67,24 @@ class _VideoDialogState extends State<_VideoDialog> {
             ),
             const SizedBox(height: 8),
             const Text('Precisa de internet para assistir.'),
+            TextButton.icon(
+              onPressed: () => abrirNoYoutube(widget.videoId),
+              icon: const Icon(Icons.open_in_new),
+              label: const Text('Não abriu? Abrir no YouTube'),
+            ),
           ],
         ),
       ),
     );
   }
 }
+
+Future<void> abrirNoYoutube(String videoId) => launchUrl(
+  Uri.parse('https://www.youtube.com/watch?v=$videoId'),
+  mode: LaunchMode.externalApplication,
+);
+
+Future<void> buscarNoYoutube(String busca) => launchUrl(
+  Uri.https('www.youtube.com', '/results', {'search_query': busca}),
+  mode: LaunchMode.externalApplication,
+);

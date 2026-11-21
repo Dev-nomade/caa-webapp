@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../data/cards.dart';
 import '../../state/app_state.dart';
 import '../rotina/rotina_editor_page.dart';
+import '../recursos/recursos_page.dart';
 import 'cartoes_personalizados_page.dart';
 
 /// Pede o PIN antes de abrir a área do cuidador (evita mudanças sem querer).
@@ -108,6 +109,15 @@ class CaregiverPage extends StatelessWidget {
               MaterialPageRoute(
                 builder: (_) => const CartoesPersonalizadosPage(),
               ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.lightbulb_outline),
+            title: const Text('Dicas para o cuidador'),
+            trailing: const Icon(Icons.chevron_right),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const DicasPage()),
             ),
           ),
           ListTile(

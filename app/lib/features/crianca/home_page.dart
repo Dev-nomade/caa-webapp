@@ -90,14 +90,32 @@ class HomePage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            ListTile(
-              dense: true,
-              leading: const Icon(Icons.library_music_outlined),
-              title: const Text('Recursos: músicas e dicas'),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(builder: (_) => const RecursosPage()),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 8, 12, 0),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: FilledButton.icon(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const VideosPage()),
+                      ),
+                      icon: const Icon(Icons.smart_display),
+                      label: const Text('Vídeo'),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: FilledButton.icon(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const MusicasPage()),
+                      ),
+                      icon: const Icon(Icons.music_note),
+                      label: const Text('Música'),
+                    ),
+                  ),
+                ],
               ),
             ),
             SwitchListTile(

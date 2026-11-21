@@ -5,6 +5,7 @@ import 'package:cognitia/core/media_service.dart';
 import 'package:cognitia/core/sound_service.dart';
 import 'package:cognitia/core/tts_service.dart';
 import 'package:cognitia/data/cards.dart';
+import 'package:cognitia/data/recursos.dart';
 import 'package:cognitia/main.dart';
 import 'package:cognitia/state/app_state.dart';
 
@@ -31,6 +32,7 @@ class FakeTts extends TtsService {
 
 void main() {
   group("rotina", rotinaTests);
+  group("videos", videosTests);
   group("personalizados", personalizadosTests);
   late FakeTts tts;
   late AppState estado;
@@ -103,6 +105,8 @@ void main() {
     await t.pumpWidget(CognitiaApp(estado: estado));
     expect(find.text('Comer'), findsOneWidget);
     expect(find.text('SOS'), findsOneWidget);
+    expect(find.text('Vídeo'), findsOneWidget);
+    expect(find.text('Música'), findsOneWidget);
     expect(find.text('Modo claro'), findsOneWidget);
     await t.tap(find.byType(Switch));
     await t.pump();
@@ -222,5 +226,29 @@ void personalizadosTests() {
   test('cartões fixos não podem ser apagados', () {
     final s = novo()..removerPersonalizado('comer');
     expect(s.buscar('comer'), isNotNull);
+  });
+}
+
+void videosTests() {
+  final todos = [
+    for (final g in [...gruposVideos, musicasAlfabeto])
+      ...g.itens.map((v) => v.videoId),
+    ...musicasRelaxantes.map((m) => m.videoId),
+  ];
+
+  test('vídeos: códigos têm 11 caracteres e não se repetem', () {
+    for (final id in todos) {
+      expect(id.length, 11, reason: id);
+    }
+    for (final g in gruposVideos) {
+      final ids = g.itens.map((v) => v.videoId).toList();
+      expect(ids.toSet().length, ids.length, reason: g.nome);
+    }
+  });
+
+  test('há grupos de Peppa, Masha, Pooh e alfabeto musical', () {
+    final nomes = gruposVideos.map((g) => g.nome).toList();
+    expect(nomes, containsAll(['Peppa Pig', 'Masha e o Urso', 'Ursinho Pooh']));
+    expect(musicasAlfabeto.itens, isNotEmpty);
   });
 }
