@@ -40,6 +40,7 @@ class AppState extends ChangeNotifier {
   Set<String> ocultos = {};
   String pin = '1234';
   bool altoContraste = false;
+  bool escuro = false;
   int colunas = 2;
 
   // ---- Rotina visual ----
@@ -75,6 +76,7 @@ class AppState extends ChangeNotifier {
     ocultos = (_prefs.getStringList('ocultos') ?? []).toSet();
     pin = _prefs.getString('pin') ?? '1234';
     altoContraste = _prefs.getBool('altoContraste') ?? false;
+    escuro = _prefs.getBool('escuro') ?? false;
     colunas = _prefs.getInt('colunas') ?? 2;
     rotina = (_prefs.getStringList('rotina') ?? List.of(rotinaPadrao))
         .where((id) => buscar(id) != null)
@@ -245,6 +247,12 @@ class AppState extends ChangeNotifier {
   void definirAltoContraste(bool v) {
     altoContraste = v;
     _prefs.setBool('altoContraste', v);
+    notifyListeners();
+  }
+
+  void definirEscuro(bool v) {
+    escuro = v;
+    _prefs.setBool('escuro', v);
     notifyListeners();
   }
 

@@ -1,3 +1,4 @@
+import 'package:material_ui/material_ui.dart' show Switch;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cognitia/core/media_service.dart';
@@ -52,6 +53,14 @@ void main() {
     expect(tts.falas.last, 'Me ajude');
   });
 
+  test('modo escuro é salvo no aparelho', () async {
+    expect(estado.escuro, false);
+    estado.definirEscuro(true);
+    final prefs = await SharedPreferences.getInstance();
+    final outro = AppState(tts, prefs);
+    expect(outro.escuro, true);
+  });
+
   test('SOS fala a mensagem', () {
     estado.acionarSos(opcoesSos.first);
     expect(tts.falas.last, 'Estou com dor');
@@ -72,6 +81,10 @@ void main() {
     await t.pumpWidget(CognitiaApp(estado: estado));
     expect(find.text('Comer'), findsOneWidget);
     expect(find.text('SOS'), findsOneWidget);
+    expect(find.text('Modo claro'), findsOneWidget);
+    await t.tap(find.byType(Switch));
+    await t.pump();
+    expect(find.text('Modo escuro'), findsOneWidget);
   });
 }
 

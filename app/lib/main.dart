@@ -24,7 +24,7 @@ class CognitiaApp extends StatelessWidget {
         builder: (_, s, _) => MaterialApp(
           title: 'CognitIA',
           debugShowCheckedModeBanner: false,
-          theme: buildTheme(altoContraste: s.altoContraste),
+          theme: buildTheme(altoContraste: s.altoContraste, escuro: s.escuro),
           home: const HomePage(),
         ),
       ),

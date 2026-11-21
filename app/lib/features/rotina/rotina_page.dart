@@ -75,9 +75,13 @@ class RotinaPage extends StatelessWidget {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(c.rotulo,
-                                              style: Theme.of(context).textTheme.titleMedium),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium
+                                                  ?.copyWith(color: Colors.black87)),
                                           if (eAtual)
-                                            const Text('Agora', style: TextStyle(fontSize: 18)),
+                                            const Text('Agora',
+                                                style: TextStyle(fontSize: 18, color: Colors.black87)),
                                         ],
                                       ),
                                     ),

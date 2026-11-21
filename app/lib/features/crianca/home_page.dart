@@ -51,6 +51,15 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
+      bottomNavigationBar: SafeArea(
+        child: SwitchListTile(
+          dense: true,
+          secondary: Icon(s.escuro ? Icons.dark_mode : Icons.light_mode),
+          title: Text(s.escuro ? 'Modo escuro' : 'Modo claro'),
+          value: s.escuro,
+          onChanged: s.definirEscuro,
+        ),
+      ),
       body: Column(
         children: [
           Expanded(
@@ -89,7 +98,10 @@ class _CartaoTile extends StatelessWidget {
               CardVisual(card, tamanho: 56),
               const SizedBox(height: 8),
               Text(card.rotulo,
-                  style: Theme.of(context).textTheme.titleMedium),
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(color: Colors.black87)),
             ],
           ),
         ),
