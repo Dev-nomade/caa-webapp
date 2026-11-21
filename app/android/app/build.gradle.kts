@@ -29,6 +29,12 @@ android {
         versionName = flutter.versionName
     }
 
+    lint {
+        // O lint do Android quebra ao analisar pacotes de terceiros (image_picker);
+        // não afeta o app e deixaria o build do APK falhar.
+        checkReleaseBuilds = false
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
