@@ -206,14 +206,3 @@ const cartoes = <PecsCard>[
     videoId: 'gSEu2od18PQ',
   ),
 ];
-
-class SosOption {
-  final String id, rotulo, frase, emoji;
-  const SosOption(this.id, this.rotulo, this.frase, this.emoji);
-}
-
-const opcoesSos = <SosOption>[
-  SosOption('dor', 'Dor', 'Estou com dor', '🤕'),
-  SosOption('barulho', 'Barulho alto', 'O barulho está muito alto', '🔊'),
-  SosOption('medo', 'Medo', 'Estou com medo', '😨'),
-];

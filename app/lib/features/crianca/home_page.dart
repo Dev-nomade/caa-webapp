@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart' show HapticFeedback;
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
 
@@ -8,7 +9,6 @@ import '../widgets/card_visual.dart';
 import '../widgets/video_dialog.dart';
 import '../recursos/recursos_page.dart';
 import '../rotina/rotina_page.dart';
-import 'sos_sheet.dart';
 
 /// Modo Criança: poucos elementos, botões grandes, sem texto longo.
 class HomePage extends StatelessWidget {
@@ -58,8 +58,8 @@ class HomePage extends StatelessWidget {
                   backgroundColor: const Color(0xFFD9534F),
                 ),
                 onPressed: () {
+                  HapticFeedback.heavyImpact();
                   context.read<AppState>().pedirAjuda();
-                  mostrarSos(context);
                 },
                 icon: const Icon(Icons.sos),
                 label: const Text('SOS'),

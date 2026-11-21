@@ -58,11 +58,6 @@ void main() {
     expect(tts.falas.last, 'comer beber');
   });
 
-  test('botão SOS fala "Me ajude"', () {
-    estado.pedirAjuda();
-    expect(tts.falas.last, 'Me ajude');
-  });
-
   test('modo escuro é salvo no aparelho', () async {
     expect(estado.escuro, false);
     estado.definirEscuro(true);
@@ -71,11 +66,11 @@ void main() {
     expect(outro.escuro, true);
   });
 
-  test('SOS fala a mensagem e toca o alerta suave', () async {
+  test('botão SOS fala "Me ajude" e toca o alerta suave', () async {
     final sons = FakeSons();
     final s = AppState(tts, await SharedPreferences.getInstance(), sons: sons);
-    s.acionarSos(opcoesSos.first);
-    expect(tts.falas.last, 'Estou com dor');
+    s.pedirAjuda();
+    expect(tts.falas.last, 'Me ajude');
     expect(sons.alertas, 1);
   });
 
@@ -86,10 +81,10 @@ void main() {
     expect(b.length, greaterThan(1000));
   });
 
-  test('vídeo ao tocar fica ligado por padrão e pode ser desligado', () {
-    expect(estado.videoAoTocar, true);
-    estado.definirVideoAoTocar(false);
+  test('vídeo ao tocar fica desligado por padrão e pode ser ligado', () {
     expect(estado.videoAoTocar, false);
+    estado.definirVideoAoTocar(true);
+    expect(estado.videoAoTocar, true);
     expect(cartoes.every((c) => c.videoId != null), true);
   });
 

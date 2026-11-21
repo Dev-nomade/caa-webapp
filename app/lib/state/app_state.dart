@@ -51,7 +51,7 @@ class AppState extends ChangeNotifier {
   String pin = '1234';
   bool altoContraste = false;
   bool escuro = false;
-  bool videoAoTocar = true;
+  bool videoAoTocar = false;
   int colunas = 2;
 
   // ---- Rotina visual ----
@@ -96,7 +96,7 @@ class AppState extends ChangeNotifier {
     pin = _prefs.getString('pin') ?? '1234';
     altoContraste = _prefs.getBool('altoContraste') ?? false;
     escuro = _prefs.getBool('escuro') ?? false;
-    videoAoTocar = _prefs.getBool('videoAoTocar') ?? true;
+    videoAoTocar = _prefs.getBool('videoAoTocar') ?? false;
     colunas = _prefs.getInt('colunas') ?? 2;
     rotina = (_prefs.getStringList('rotina') ?? List.of(rotinaPadrao))
         .where((id) => buscar(id) != null)
@@ -252,12 +252,10 @@ class AppState extends ChangeNotifier {
   }
 
   // ---- SOS ----
-  /// Toque no botão SOS: pede ajuda em voz alta.
-  void pedirAjuda() => tts.falar('Me ajude');
-
-  void acionarSos(SosOption o) {
-    tts.falar(o.frase);
-    sons.tocarAlerta(); // alerta suave de três tons
+  /// Toque no botão SOS: fala "Me ajude" e toca o alerta suave de três tons.
+  void pedirAjuda() {
+    tts.falar('Me ajude');
+    sons.tocarAlerta();
   }
 
   // ---- Cuidador ----
