@@ -2,7 +2,7 @@ name: Gerar APK (Android)
 
 on:
   push:
-    branches: [main, 'claude/**']
+    branches: [main, 'devin/**', 'claude/**']
     paths: ['app/**', '.github/workflows/android-apk.yml']
     tags: ['v*'] # ex.: v0.1.0 cria uma Release com o APK para download
   workflow_dispatch:
