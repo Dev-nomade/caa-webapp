@@ -224,6 +224,9 @@ class AppState extends ChangeNotifier {
   }
 
   // ---- SOS ----
+  /// Toque no botão SOS: pede ajuda em voz alta.
+  void pedirAjuda() => tts.falar('Me ajude');
+
   void acionarSos(SosOption o) => tts.falar(o.frase);
 
   // ---- Cuidador ----

@@ -47,6 +47,11 @@ void main() {
     expect(tts.falas.last, 'comer beber');
   });
 
+  test('botão SOS fala "Me ajude"', () {
+    estado.pedirAjuda();
+    expect(tts.falas.last, 'Me ajude');
+  });
+
   test('SOS fala a mensagem', () {
     estado.acionarSos(opcoesSos.first);
     expect(tts.falas.last, 'Estou com dor');

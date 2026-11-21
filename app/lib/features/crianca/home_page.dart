@@ -26,7 +26,10 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 6),
               child: FilledButton.icon(
                 style: FilledButton.styleFrom(backgroundColor: const Color(0xFFD9534F)),
-                onPressed: () => mostrarSos(context),
+                onPressed: () {
+                  context.read<AppState>().pedirAjuda();
+                  mostrarSos(context);
+                },
                 icon: const Icon(Icons.sos),
                 label: const Text('SOS'),
               ),
