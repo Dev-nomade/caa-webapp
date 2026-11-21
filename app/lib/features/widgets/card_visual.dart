@@ -1,6 +1,8 @@
 import 'dart:io';
+
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:material_ui/material_ui.dart';
+
 import '../../data/cards.dart';
 
 /// Mostra a foto do cartão (se houver) ou o emoji.

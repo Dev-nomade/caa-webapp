@@ -1,7 +1,10 @@
 import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import '../core/media_service.dart';
+import '../core/sound_service.dart';
 import '../core/tts_service.dart';
 import '../data/cards.dart';
 
@@ -24,14 +27,21 @@ class Sugestao {
 
 /// Estado do app. Tudo fica salvo só no aparelho (SharedPreferences).
 class AppState extends ChangeNotifier {
-  AppState(this.tts, this._prefs, {DateTime Function()? agora, MediaService? media})
-      : _agora = agora ?? DateTime.now,
-        media = media ?? MediaService() {
+  AppState(
+    this.tts,
+    this._prefs, {
+    DateTime Function()? agora,
+    MediaService? media,
+    SoundService? sons,
+  }) : _agora = agora ?? DateTime.now,
+       media = media ?? MediaService(),
+       sons = sons ?? SoundService() {
     _carregar();
   }
 
   final TtsService tts;
   final MediaService media;
+  final SoundService sons;
   final SharedPreferences _prefs;
   final DateTime Function() _agora;
 
@@ -41,10 +51,19 @@ class AppState extends ChangeNotifier {
   String pin = '1234';
   bool altoContraste = false;
   bool escuro = false;
+  bool videoAoTocar = true;
   int colunas = 2;
 
   // ---- Rotina visual ----
-  static const rotinaPadrao = ['vestir', 'comer', 'estudar', 'brincar', 'banho', 'comer', 'dormir'];
+  static const rotinaPadrao = [
+    'vestir',
+    'comer',
+    'estudar',
+    'brincar',
+    'banho',
+    'comer',
+    'dormir',
+  ];
   List<String> rotina = List.of(rotinaPadrao);
   Set<int> feitos = {};
   List<PecsCard> personalizados = [];
@@ -77,13 +96,16 @@ class AppState extends ChangeNotifier {
     pin = _prefs.getString('pin') ?? '1234';
     altoContraste = _prefs.getBool('altoContraste') ?? false;
     escuro = _prefs.getBool('escuro') ?? false;
+    videoAoTocar = _prefs.getBool('videoAoTocar') ?? true;
     colunas = _prefs.getInt('colunas') ?? 2;
     rotina = (_prefs.getStringList('rotina') ?? List.of(rotinaPadrao))
         .where((id) => buscar(id) != null)
         .toList();
     _dataFeitos = _prefs.getString('rotinaData') ?? '';
     if (_dataFeitos == _hoje) {
-      feitos = (_prefs.getStringList('rotinaFeitos') ?? []).map(int.parse).toSet();
+      feitos = (_prefs.getStringList('rotinaFeitos') ?? [])
+          .map(int.parse)
+          .toSet();
     } else {
       feitos = {}; // novo dia: a rotina recomeça
     }
@@ -128,7 +150,9 @@ class AppState extends ChangeNotifier {
   }
 
   void _salvarPersonalizados() => _prefs.setStringList(
-      'personalizados', personalizados.map((c) => jsonEncode(c.toJson())).toList());
+    'personalizados',
+    personalizados.map((c) => jsonEncode(c.toJson())).toList(),
+  );
 
   /// Fala só a palavra do cartão (ex.: "Comer"); usa a voz gravada pela família, se existir.
   void _dizer(PecsCard c) {
@@ -152,7 +176,9 @@ class AppState extends ChangeNotifier {
   void concluirPasso(int i) {
     if (i < 0 || i >= rotina.length) return;
     feitos.contains(i) ? feitos.remove(i) : feitos.add(i);
-    if (feitos.contains(i)) tts.falar('${_card(rotina[i]).rotulo} feito. Muito bem!');
+    if (feitos.contains(i)) {
+      tts.falar('${_card(rotina[i]).rotulo} feito. Muito bem!');
+    }
     _salvarFeitos();
     notifyListeners();
   }
@@ -229,7 +255,10 @@ class AppState extends ChangeNotifier {
   /// Toque no botão SOS: pede ajuda em voz alta.
   void pedirAjuda() => tts.falar('Me ajude');
 
-  void acionarSos(SosOption o) => tts.falar(o.frase);
+  void acionarSos(SosOption o) {
+    tts.falar(o.frase);
+    sons.tocarAlerta(); // alerta suave de três tons
+  }
 
   // ---- Cuidador ----
   void alternarCartao(String id) {
@@ -256,6 +285,12 @@ class AppState extends ChangeNotifier {
     notifyListeners();
   }
 
+  void definirVideoAoTocar(bool v) {
+    videoAoTocar = v;
+    _prefs.setBool('videoAoTocar', v);
+    notifyListeners();
+  }
+
   void definirPin(String novo) {
     pin = novo;
     _prefs.setString('pin', novo);
@@ -278,7 +313,9 @@ class AppState extends ChangeNotifier {
   }
 
   void _salvarHistorico() => _prefs.setString(
-      'historico', jsonEncode(historico.map((e) => e.toJson()).toList()));
+    'historico',
+    jsonEncode(historico.map((e) => e.toJson()).toList()),
+  );
 
   /// Quantas vezes cada cartão foi usado nos últimos 7 dias.
   Map<String, int> get contagem {
@@ -296,14 +333,31 @@ class AppState extends ChangeNotifier {
     bool padrao(String id, int ini, int fim) =>
         hora >= ini &&
         hora <= fim &&
-        historico.where((r) => r.cartaoId == id && r.hora >= ini && r.hora <= fim).length >= 2;
+        historico
+                .where(
+                  (r) => r.cartaoId == id && r.hora >= ini && r.hora <= fim,
+                )
+                .length >=
+            2;
 
-    if (padrao('comer', 6, 9)) out.add(const Sugestao('Hora do café da manhã?', 'comer'));
-    if (padrao('comer', 11, 13)) out.add(const Sugestao('Hora do almoço?', 'comer'));
-    if (padrao('comer', 14, 16)) out.add(const Sugestao('Hora do lanche?', 'comer'));
-    if (padrao('comer', 18, 20)) out.add(const Sugestao('Hora do jantar?', 'comer'));
-    if (hora >= 20 || hora < 5) out.add(const Sugestao('Já está tarde. Quer dormir?', 'dormir'));
-    if (padrao('banho', 16, 19)) out.add(const Sugestao('Hora do banho?', 'banho'));
+    if (padrao('comer', 6, 9)) {
+      out.add(const Sugestao('Hora do café da manhã?', 'comer'));
+    }
+    if (padrao('comer', 11, 13)) {
+      out.add(const Sugestao('Hora do almoço?', 'comer'));
+    }
+    if (padrao('comer', 14, 16)) {
+      out.add(const Sugestao('Hora do lanche?', 'comer'));
+    }
+    if (padrao('comer', 18, 20)) {
+      out.add(const Sugestao('Hora do jantar?', 'comer'));
+    }
+    if (hora >= 20 || hora < 5) {
+      out.add(const Sugestao('Já está tarde. Quer dormir?', 'dormir'));
+    }
+    if (padrao('banho', 16, 19)) {
+      out.add(const Sugestao('Hora do banho?', 'banho'));
+    }
     return out;
   }
 }

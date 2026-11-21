@@ -2,7 +2,7 @@ name: Publicar versão web (GitHub Pages)
 
 on:
   push:
-    branches: [main, 'devin/**']
+    branches: [main, 'devin/**', 'claude/**']
     paths: ['app/**', '.github/workflows/web-pages.yml']
   workflow_dispatch: # permite rodar manualmente na aba Actions, em qualquer branch
 

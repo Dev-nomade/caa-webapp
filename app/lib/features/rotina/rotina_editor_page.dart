@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
+
 import '../../state/app_state.dart';
 
 /// Cuidador monta a rotina: arrastar para reordenar, deslizar para remover.
@@ -30,7 +31,9 @@ class RotinaEditorPage extends StatelessWidget {
               key: ValueKey('tile-$i-${c.id}'),
               leading: Text(c.emoji, style: const TextStyle(fontSize: 32)),
               title: Text('${i + 1}. ${c.rotulo}'),
-              subtitle: const Text('Arraste para mudar a ordem • deslize para remover'),
+              subtitle: const Text(
+                'Arraste para mudar a ordem • deslize para remover',
+              ),
               trailing: ReorderableDragStartListener(
                 index: i,
                 child: const Icon(Icons.drag_handle),

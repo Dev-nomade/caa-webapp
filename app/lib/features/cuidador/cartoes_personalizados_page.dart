@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:image_picker/image_picker.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
+
 import '../../data/cards.dart';
 import '../../state/app_state.dart';
 import '../widgets/card_visual.dart';
@@ -18,7 +19,9 @@ class CartoesPersonalizadosPage extends StatelessWidget {
       appBar: AppBar(title: const Text('Cartões da família')),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => Navigator.push(
-            context, MaterialPageRoute(builder: (_) => const NovoCartaoPage())),
+          context,
+          MaterialPageRoute(builder: (_) => const NovoCartaoPage()),
+        ),
         icon: const Icon(Icons.add),
         label: const Text('Novo cartão'),
       ),
@@ -39,10 +42,14 @@ class CartoesPersonalizadosPage extends StatelessWidget {
               children: [
                 for (final c in lista)
                   ListTile(
-                    leading: SizedBox(width: 64, child: Center(child: CardVisual(c, tamanho: 30))),
+                    leading: SizedBox(
+                      width: 64,
+                      child: Center(child: CardVisual(c, tamanho: 30)),
+                    ),
                     title: Text(c.rotulo),
                     subtitle: Text(
-                        '${c.categoria.nome}${c.audioPath != null ? ' • com voz gravada' : ''}'),
+                      '${c.categoria.nome}${c.audioPath != null ? ' • com voz gravada' : ''}',
+                    ),
                     trailing: IconButton(
                       tooltip: 'Apagar cartão',
                       icon: const Icon(Icons.delete_outline),
@@ -62,7 +69,10 @@ class CartoesPersonalizadosPage extends StatelessWidget {
         title: Text('Apagar "${c.rotulo}"?'),
         content: const Text('A foto e a voz gravada também serão apagadas.'),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(d), child: const Text('Cancelar')),
+          TextButton(
+            onPressed: () => Navigator.pop(d),
+            child: const Text('Cancelar'),
+          ),
           FilledButton(
             onPressed: () {
               context.read<AppState>().removerPersonalizado(c.id);
@@ -141,15 +151,17 @@ class _NovoCartaoPageState extends State<NovoCartaoPage> {
     final nome = _nome.text.trim();
     if (nome.isEmpty) return;
     final emoji = _emoji.text.trim().isEmpty ? '⭐' : _emoji.text.trim();
-    context.read<AppState>().adicionarPersonalizado(PecsCard(
-          'c_${DateTime.now().millisecondsSinceEpoch}',
-          nome,
-          nome,
-          emoji,
-          _cat,
-          fotoPath: _foto,
-          audioPath: _audio,
-        ));
+    context.read<AppState>().adicionarPersonalizado(
+      PecsCard(
+        'c_${DateTime.now().millisecondsSinceEpoch}',
+        nome,
+        nome,
+        emoji,
+        _cat,
+        fotoPath: _foto,
+        audioPath: _audio,
+      ),
+    );
     Navigator.pop(context);
   }
 
@@ -166,7 +178,9 @@ class _NovoCartaoPageState extends State<NovoCartaoPage> {
             textCapitalization: TextCapitalization.sentences,
             onChanged: (_) => setState(() {}),
             decoration: const InputDecoration(
-                labelText: 'Nome do cartão (ex.: Vovó)', border: OutlineInputBorder()),
+              labelText: 'Nome do cartão (ex.: Vovó)',
+              border: OutlineInputBorder(),
+            ),
           ),
           const SizedBox(height: 12),
           SegmentedButton<CardCategory>(
@@ -181,49 +195,70 @@ class _NovoCartaoPageState extends State<NovoCartaoPage> {
           TextField(
             controller: _emoji,
             decoration: const InputDecoration(
-                labelText: 'Emoji (opcional, usado se não houver foto)',
-                border: OutlineInputBorder()),
+              labelText: 'Emoji (opcional, usado se não houver foto)',
+              border: OutlineInputBorder(),
+            ),
           ),
           if (!kIsWeb) ...[
             const Divider(height: 32),
             Text('Foto', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 8),
-            Wrap(spacing: 8, children: [
-              FilledButton.icon(
+            Wrap(
+              spacing: 8,
+              children: [
+                FilledButton.icon(
                   onPressed: () => _escolherFoto(ImageSource.camera),
                   icon: const Icon(Icons.photo_camera),
-                  label: const Text('Câmera')),
-              FilledButton.icon(
+                  label: const Text('Câmera'),
+                ),
+                FilledButton.icon(
                   onPressed: () => _escolherFoto(ImageSource.gallery),
                   icon: const Icon(Icons.photo_library),
-                  label: const Text('Galeria')),
-            ]),
+                  label: const Text('Galeria'),
+                ),
+              ],
+            ),
             if (_foto != null)
               Padding(
                 padding: const EdgeInsets.only(top: 12),
                 child: Center(
                   child: CardVisual(
-                      PecsCard('x', '', '', '⭐', _cat, fotoPath: _foto), tamanho: 60),
+                    PecsCard('x', '', '', '⭐', _cat, fotoPath: _foto),
+                    tamanho: 60,
+                  ),
                 ),
               ),
             const Divider(height: 32),
-            Text('Voz da família', style: Theme.of(context).textTheme.titleMedium),
+            Text(
+              'Voz da família',
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
             const SizedBox(height: 8),
-            Wrap(spacing: 8, children: [
-              FilledButton.icon(
-                style: _gravando
-                    ? FilledButton.styleFrom(backgroundColor: const Color(0xFFD9534F))
-                    : null,
-                onPressed: _alternarGravacao,
-                icon: Icon(_gravando ? Icons.stop : Icons.mic),
-                label: Text(_gravando ? 'Parar' : (_audio == null ? 'Gravar' : 'Gravar de novo')),
-              ),
-              if (_audio != null && !_gravando)
-                OutlinedButton.icon(
+            Wrap(
+              spacing: 8,
+              children: [
+                FilledButton.icon(
+                  style: _gravando
+                      ? FilledButton.styleFrom(
+                          backgroundColor: const Color(0xFFD9534F),
+                        )
+                      : null,
+                  onPressed: _alternarGravacao,
+                  icon: Icon(_gravando ? Icons.stop : Icons.mic),
+                  label: Text(
+                    _gravando
+                        ? 'Parar'
+                        : (_audio == null ? 'Gravar' : 'Gravar de novo'),
+                  ),
+                ),
+                if (_audio != null && !_gravando)
+                  OutlinedButton.icon(
                     onPressed: () => s.media.tocar(_audio!),
                     icon: const Icon(Icons.play_arrow),
-                    label: const Text('Ouvir')),
-            ]),
+                    label: const Text('Ouvir'),
+                  ),
+              ],
+            ),
             const Padding(
               padding: EdgeInsets.only(top: 8),
               child: Text('Sem gravação, o app fala com a voz do celular.'),

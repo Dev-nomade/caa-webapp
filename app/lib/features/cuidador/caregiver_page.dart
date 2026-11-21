@@ -1,5 +1,6 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
+
 import '../../data/cards.dart';
 import '../../state/app_state.dart';
 import '../rotina/rotina_editor_page.dart';
@@ -24,31 +25,36 @@ class _CaregiverGateState extends State<CaregiverGate> {
       appBar: AppBar(title: const Text('Área do cuidador')),
       body: Padding(
         padding: const EdgeInsets.all(24),
-        child: Column(children: [
-          const Text('Digite o PIN (padrão: 1234)', style: TextStyle(fontSize: 20)),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _ctrl,
-            obscureText: true,
-            keyboardType: TextInputType.number,
-            maxLength: 4,
-            decoration: InputDecoration(
-              border: const OutlineInputBorder(),
-              errorText: _erro ? 'PIN incorreto' : null,
+        child: Column(
+          children: [
+            const Text(
+              'Digite o PIN (padrão: 1234)',
+              style: TextStyle(fontSize: 20),
             ),
-          ),
-          const SizedBox(height: 12),
-          FilledButton(
-            onPressed: () {
-              final ok = _ctrl.text == context.read<AppState>().pin;
-              setState(() {
-                _liberado = ok;
-                _erro = !ok;
-              });
-            },
-            child: const Text('Entrar'),
-          ),
-        ]),
+            const SizedBox(height: 16),
+            TextField(
+              controller: _ctrl,
+              obscureText: true,
+              keyboardType: TextInputType.number,
+              maxLength: 4,
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                errorText: _erro ? 'PIN incorreto' : null,
+              ),
+            ),
+            const SizedBox(height: 12),
+            FilledButton(
+              onPressed: () {
+                final ok = _ctrl.text == context.read<AppState>().pin;
+                setState(() {
+                  _liberado = ok;
+                  _erro = !ok;
+                });
+              },
+              child: const Text('Entrar'),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -61,7 +67,8 @@ class CaregiverPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final s = context.watch<AppState>();
     final uso = s.contagem;
-    final ranking = uso.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+    final ranking = uso.entries.toList()
+      ..sort((a, b) => b.value.compareTo(a.value));
 
     return Scaffold(
       appBar: AppBar(title: const Text('Área do cuidador')),
@@ -73,6 +80,12 @@ class CaregiverPage extends StatelessWidget {
             title: const Text('Alto contraste'),
             value: s.altoContraste,
             onChanged: s.definirAltoContraste,
+          ),
+          SwitchListTile(
+            title: const Text('Abrir vídeo ao tocar no cartão'),
+            subtitle: const Text('Precisa de internet'),
+            value: s.videoAoTocar,
+            onChanged: s.definirVideoAoTocar,
           ),
           ListTile(
             title: const Text('Cartões por linha'),
@@ -90,18 +103,27 @@ class CaregiverPage extends StatelessWidget {
             leading: const Icon(Icons.add_photo_alternate_outlined),
             title: const Text('Cartões da família (foto e voz)'),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const CartoesPersonalizadosPage())),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const CartoesPersonalizadosPage(),
+              ),
+            ),
           ),
           ListTile(
             leading: const Icon(Icons.checklist_rtl),
             title: const Text('Editar rotina visual'),
             trailing: const Icon(Icons.chevron_right),
-            onTap: () => Navigator.push(context,
-                MaterialPageRoute(builder: (_) => const RotinaEditorPage())),
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const RotinaEditorPage()),
+            ),
           ),
           const Divider(height: 32),
-          Text('Cartões visíveis', style: Theme.of(context).textTheme.titleMedium),
+          Text(
+            'Cartões visíveis',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
           for (final c in s.todos)
             CheckboxListTile(
               secondary: Text(c.emoji, style: const TextStyle(fontSize: 28)),
@@ -110,17 +132,33 @@ class CaregiverPage extends StatelessWidget {
               onChanged: (_) => s.alternarCartao(c.id),
             ),
           const Divider(height: 32),
-          Text('Uso nos últimos 7 dias', style: Theme.of(context).textTheme.titleMedium),
-          if (ranking.isEmpty) const Padding(padding: EdgeInsets.all(8), child: Text('Ainda sem registros.')),
+          Text(
+            'Uso nos últimos 7 dias',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          if (ranking.isEmpty)
+            const Padding(
+              padding: EdgeInsets.all(8),
+              child: Text('Ainda sem registros.'),
+            ),
           for (final e in ranking)
             if (s.buscar(e.key) != null)
               ListTile(
-                leading: Text(s.buscar(e.key)!.emoji, style: const TextStyle(fontSize: 28)),
+                leading: Text(
+                  s.buscar(e.key)!.emoji,
+                  style: const TextStyle(fontSize: 28),
+                ),
                 title: Text(s.buscar(e.key)!.rotulo),
-                trailing: Text('${e.value}x', style: const TextStyle(fontSize: 18)),
+                trailing: Text(
+                  '${e.value}x',
+                  style: const TextStyle(fontSize: 18),
+                ),
               ),
           if (ranking.isNotEmpty)
-            TextButton(onPressed: s.limparHistorico, child: const Text('Apagar histórico')),
+            TextButton(
+              onPressed: s.limparHistorico,
+              child: const Text('Apagar histórico'),
+            ),
           const Divider(height: 32),
           ListTile(
             leading: const Icon(Icons.pin_outlined),
@@ -129,7 +167,9 @@ class CaregiverPage extends StatelessWidget {
           ),
           const Padding(
             padding: EdgeInsets.all(8),
-            child: Text('Todos os dados ficam só neste aparelho. Nada é enviado pela internet.'),
+            child: Text(
+              'Todos os dados ficam só neste aparelho. Nada é enviado pela internet.',
+            ),
           ),
         ],
       ),
@@ -142,9 +182,16 @@ class CaregiverPage extends StatelessWidget {
       context: context,
       builder: (d) => AlertDialog(
         title: const Text('Novo PIN (4 números)'),
-        content: TextField(controller: ctrl, keyboardType: TextInputType.number, maxLength: 4),
+        content: TextField(
+          controller: ctrl,
+          keyboardType: TextInputType.number,
+          maxLength: 4,
+        ),
         actions: [
-          TextButton(onPressed: () => Navigator.pop(d), child: const Text('Cancelar')),
+          TextButton(
+            onPressed: () => Navigator.pop(d),
+            child: const Text('Cancelar'),
+          ),
           FilledButton(
             onPressed: () {
               if (RegExp(r'^\d{4}$').hasMatch(ctrl.text)) {

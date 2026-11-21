@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
@@ -23,7 +24,11 @@ class MediaService {
 
   /// Abre câmera ou galeria e devolve o caminho da cópia salva (ou null).
   Future<String?> escolherFoto(ImageSource origem) async {
-    final x = await _picker.pickImage(source: origem, maxWidth: 800, imageQuality: 80);
+    final x = await _picker.pickImage(
+      source: origem,
+      maxWidth: 800,
+      imageQuality: 80,
+    );
     if (x == null) return null;
     final destino = await _novoCaminho('foto', 'jpg');
     await File(x.path).copy(destino);
@@ -34,7 +39,10 @@ class MediaService {
   Future<bool> iniciarGravacao() async {
     if (!await _recorder.hasPermission()) return false;
     final caminho = await _novoCaminho('voz', 'm4a');
-    await _recorder.start(const RecordConfig(encoder: AudioEncoder.aacLc), path: caminho);
+    await _recorder.start(
+      const RecordConfig(encoder: AudioEncoder.aacLc),
+      path: caminho,
+    );
     return true;
   }
 

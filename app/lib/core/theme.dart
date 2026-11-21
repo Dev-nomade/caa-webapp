@@ -10,7 +10,9 @@ ThemeData buildTheme({bool altoContraste = false, bool escuro = false}) {
     colorScheme: base,
     scaffoldBackgroundColor: escuro
         ? (altoContraste ? Colors.black : const Color(0xFF1F2024))
-        : (altoContraste ? Colors.white : const Color(0xFFF7F4EE)), // fundo pastel
+        : (altoContraste
+              ? Colors.white
+              : const Color(0xFFF7F4EE)), // fundo pastel
     textTheme: const TextTheme(
       titleMedium: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
       bodyLarge: TextStyle(fontSize: 20),

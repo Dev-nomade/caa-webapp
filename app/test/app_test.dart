@@ -2,6 +2,7 @@ import 'package:material_ui/material_ui.dart' show Switch;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cognitia/core/media_service.dart';
+import 'package:cognitia/core/sound_service.dart';
 import 'package:cognitia/core/tts_service.dart';
 import 'package:cognitia/data/cards.dart';
 import 'package:cognitia/main.dart';
@@ -14,6 +15,12 @@ class FakeMedia extends MediaService {
   Future<void> tocar(String caminho) async => tocados.add(caminho);
   @override
   Future<void> apagar(String? caminho) async => apagados.add(caminho);
+}
+
+class FakeSons extends SoundService {
+  int alertas = 0;
+  @override
+  Future<void> tocarAlerta() async => alertas++;
 }
 
 class FakeTts extends TtsService {
@@ -31,8 +38,11 @@ void main() {
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     tts = FakeTts();
-    estado = AppState(tts, await SharedPreferences.getInstance(),
-        agora: () => DateTime(2026, 1, 1, 12));
+    estado = AppState(
+      tts,
+      await SharedPreferences.getInstance(),
+      agora: () => DateTime(2026, 1, 1, 12),
+    );
   });
 
   test('tocar cartão fala a frase e entra na barra', () {
@@ -61,9 +71,26 @@ void main() {
     expect(outro.escuro, true);
   });
 
-  test('SOS fala a mensagem', () {
-    estado.acionarSos(opcoesSos.first);
+  test('SOS fala a mensagem e toca o alerta suave', () async {
+    final sons = FakeSons();
+    final s = AppState(tts, await SharedPreferences.getInstance(), sons: sons);
+    s.acionarSos(opcoesSos.first);
     expect(tts.falas.last, 'Estou com dor');
+    expect(sons.alertas, 1);
+  });
+
+  test('alerta gera um arquivo WAV válido', () {
+    final b = SoundService.gerarAlerta();
+    expect(String.fromCharCodes(b.sublist(0, 4)), 'RIFF');
+    expect(String.fromCharCodes(b.sublist(8, 12)), 'WAVE');
+    expect(b.length, greaterThan(1000));
+  });
+
+  test('vídeo ao tocar fica ligado por padrão e pode ser desligado', () {
+    expect(estado.videoAoTocar, true);
+    estado.definirVideoAoTocar(false);
+    expect(estado.videoAoTocar, false);
+    expect(cartoes.every((c) => c.videoId != null), true);
   });
 
   test('ocultar cartão remove da lista visível', () {
@@ -94,8 +121,11 @@ void rotinaTests() {
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
     tts = FakeTts();
-    estado = AppState(tts, await SharedPreferences.getInstance(),
-        agora: () => DateTime(2026, 1, 1, 8));
+    estado = AppState(
+      tts,
+      await SharedPreferences.getInstance(),
+      agora: () => DateTime(2026, 1, 1, 8),
+    );
   });
 
   test('rotina: passo atual avança ao concluir', () {
@@ -138,9 +168,17 @@ void personalizadosTests() {
   late FakeTts tts;
   late FakeMedia media;
   late SharedPreferences prefs;
-  AppState novo() => AppState(tts, prefs, agora: () => DateTime(2026, 1, 1, 8), media: media);
-  const vovo = PecsCard('c_1', 'Vovó', 'Quero ver a vovó', '👵', CardCategory.acoes,
-      fotoPath: '/x/foto.jpg', audioPath: '/x/voz.m4a');
+  AppState novo() =>
+      AppState(tts, prefs, agora: () => DateTime(2026, 1, 1, 8), media: media);
+  const vovo = PecsCard(
+    'c_1',
+    'Vovó',
+    'Quero ver a vovó',
+    '👵',
+    CardCategory.acoes,
+    fotoPath: '/x/foto.jpg',
+    audioPath: '/x/voz.m4a',
+  );
 
   setUp(() async {
     SharedPreferences.setMockInitialValues({});
@@ -158,7 +196,13 @@ void personalizadosTests() {
 
   test('cartão sem áudio usa a voz do celular', () {
     final s = novo();
-    const sem = PecsCard('c_2', 'Bola', 'Quero a bola', '⚽', CardCategory.acoes);
+    const sem = PecsCard(
+      'c_2',
+      'Bola',
+      'Quero a bola',
+      '⚽',
+      CardCategory.acoes,
+    );
     s.adicionarPersonalizado(sem);
     s.tocarCartao(sem);
     expect(tts.falas, ['Bola']);

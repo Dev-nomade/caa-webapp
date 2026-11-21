@@ -1,9 +1,12 @@
 import 'package:material_ui/material_ui.dart';
 import 'package:provider/provider.dart';
+
 import '../../data/cards.dart';
 import '../../state/app_state.dart';
 import '../cuidador/caregiver_page.dart';
 import '../widgets/card_visual.dart';
+import '../widgets/video_dialog.dart';
+import '../recursos/recursos_page.dart';
 import '../rotina/rotina_page.dart';
 import 'sos_sheet.dart';
 
@@ -18,14 +21,42 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: const Text('CognitIA'),
+        foregroundColor: Colors.white,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF1565C0), Color(0xFF1976D2)],
+            ),
+          ),
+        ),
+        titleSpacing: 12,
+        title: Semantics(
+          label: 'CognitIA',
+          child: const Row(
+            children: [
+              ExcludeSemantics(
+                child: Text('🧠', style: TextStyle(fontSize: 30)),
+              ),
+              SizedBox(width: 8),
+              Flexible(
+                child: Text(
+                  'CognitIA',
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(fontWeight: FontWeight.w700),
+                ),
+              ),
+            ],
+          ),
+        ),
         actions: [
           Semantics(
             label: 'Botão de ajuda SOS',
             child: Padding(
               padding: const EdgeInsets.symmetric(vertical: 6),
               child: FilledButton.icon(
-                style: FilledButton.styleFrom(backgroundColor: const Color(0xFFD9534F)),
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFFD9534F),
+                ),
                 onPressed: () {
                   context.read<AppState>().pedirAjuda();
                   mostrarSos(context);
@@ -40,24 +71,43 @@ class HomePage extends StatelessWidget {
             iconSize: 32,
             icon: const Icon(Icons.checklist_rtl),
             onPressed: () => Navigator.push(
-                context, MaterialPageRoute(builder: (_) => const RotinaPage())),
+              context,
+              MaterialPageRoute(builder: (_) => const RotinaPage()),
+            ),
           ),
           IconButton(
             tooltip: 'Área do cuidador',
             iconSize: 32,
             icon: const Icon(Icons.lock_outline),
             onPressed: () => Navigator.push(
-                context, MaterialPageRoute(builder: (_) => const CaregiverGate())),
+              context,
+              MaterialPageRoute(builder: (_) => const CaregiverGate()),
+            ),
           ),
         ],
       ),
       bottomNavigationBar: SafeArea(
-        child: SwitchListTile(
-          dense: true,
-          secondary: Icon(s.escuro ? Icons.dark_mode : Icons.light_mode),
-          title: Text(s.escuro ? 'Modo escuro' : 'Modo claro'),
-          value: s.escuro,
-          onChanged: s.definirEscuro,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              dense: true,
+              leading: const Icon(Icons.library_music_outlined),
+              title: const Text('Recursos: músicas e dicas'),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const RecursosPage()),
+              ),
+            ),
+            SwitchListTile(
+              dense: true,
+              secondary: Icon(s.escuro ? Icons.dark_mode : Icons.light_mode),
+              title: Text(s.escuro ? 'Modo escuro' : 'Modo claro'),
+              value: s.escuro,
+              onChanged: s.definirEscuro,
+            ),
+          ],
         ),
       ),
       body: Column(
@@ -91,17 +141,23 @@ class _CartaoTile extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         child: InkWell(
           borderRadius: BorderRadius.circular(24),
-          onTap: () => context.read<AppState>().tocarCartao(card),
+          onTap: () {
+            final s = context.read<AppState>();
+            s.tocarCartao(card);
+            if (s.videoAoTocar && card.videoId != null) {
+              mostrarVideo(context, card.videoId!, titulo: card.rotulo);
+            }
+          },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               CardVisual(card, tamanho: 56),
               const SizedBox(height: 8),
-              Text(card.rotulo,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium
-                      ?.copyWith(color: Colors.black87)),
+              Text(
+                card.rotulo,
+                style: Theme.of(context).textTheme.titleMedium
+                    ?.copyWith(color: Colors.black87),
+              ),
             ],
           ),
         ),
