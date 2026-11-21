@@ -1,46 +1,38 @@
-# Getting Started with Create React App
+# CognitIA
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+App gratuito e offline de **Comunicação Aumentativa e Alternativa (CAA)** para crianças autistas não verbais e suas famílias.
 
-## Available Scripts
+- `app/` — **CognitIA v2** em Flutter/Dart (Android). Sem conta, sem internet, dados só no aparelho.
+- `legacy-web/` — versão antiga em React, mantida como referência.
 
-In the project directory, you can run:
+## Recursos (v2)
+- **Modo Criança**: cartões PECS grandes por cor (verde necessidades, amarelo sentimentos, azul ações), voz em português do Brasil.
+- **SOS**: Dor, Barulho alto e Medo, com vibração e fala.
+- **Área do cuidador** (PIN, padrão 1234): ocultar cartões, alto contraste, tamanho da grade, relatório de uso de 7 dias.
+- **Vídeo**: desenhos (Peppa Pig, Masha e o Urso, Ursinho Pooh). **Música**: alfabeto musical, Galinha Pintadinha e Palavra Cantada. Dicas para o cuidador ficam na área do cuidador. **Vídeos** nos cartões (internet; desligados por padrão, ligue na área do cuidador). **Alerta sonoro suave** no SOS.
+- **Rotina visual**: passos do dia em sequência, passo atual em destaque, marcar como feito (recomeça todo dia); o cuidador monta e reordena.
+- **Cartões da família**: o cuidador cria cartões com foto (câmera ou galeria) e voz gravada de alguém conhecido; tudo fica só no aparelho (foto e voz funcionam no Android).
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Como rodar
+```bash
+cd app
+flutter pub get
+flutter test
+flutter run
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Gerar APK para distribuir
+```bash
+cd app
+flutter build apk --release
+# arquivo: build/app/outputs/flutter-apk/app-release.apk
+```
 
-### `npm test`
+## Ver o app online e baixar o APK (GitHub Actions)
+- **Versão web (GitHub Pages):** ative em *Settings → Pages → Source: GitHub Actions*. O workflow `web-pages.yml` publica em `https://<usuario>.github.io/caa-webapp/` a cada push na `main`, ou manualmente em *Actions → Publicar versão web → Run workflow*.
+- **APK Android:** o workflow `android-apk.yml` roda a cada push (na `main` e em `claude/**`). Baixe em *Actions → execução → Artifacts → cognitia-apk*. Para uma página de download pública, crie uma tag: `git tag v0.1.0 && git push origin v0.1.0` e o APK aparece em *Releases*.
+- O APK é assinado com chave de depuração (serve para testar e instalar). Para Play Store seria preciso uma chave própria.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Próximos passos
+Pictogramas ARASAAC (verificar licença), assinatura do APK e página de download.
