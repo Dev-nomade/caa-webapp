@@ -6,7 +6,7 @@ import '../../data/cards.dart';
 import '../../state/app_state.dart';
 import '../cuidador/caregiver_page.dart';
 import '../widgets/card_visual.dart';
-import '../widgets/video_dialog.dart';
+import '../../core/youtube.dart';
 import '../recursos/recursos_page.dart';
 import '../rotina/rotina_page.dart';
 
@@ -163,7 +163,7 @@ class _CartaoTile extends StatelessWidget {
             final s = context.read<AppState>();
             s.tocarCartao(card);
             if (s.videoAoTocar && card.videoId != null) {
-              mostrarVideo(context, card.videoId!, titulo: card.rotulo);
+              abrirNoYoutube(card.videoId!);
             }
           },
           child: Column(

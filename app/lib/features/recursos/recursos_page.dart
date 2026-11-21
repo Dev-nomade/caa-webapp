@@ -1,7 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
 import '../../data/recursos.dart';
-import '../widgets/video_dialog.dart';
+import '../../core/youtube.dart';
 
 /// Botão "Vídeo": desenhos (Peppa Pig, Masha e o Urso, Ursinho Pooh).
 class VideosPage extends StatelessWidget {
@@ -13,7 +13,7 @@ class VideosPage extends StatelessWidget {
     body: ListView(
       padding: const EdgeInsets.all(12),
       children: [
-        const _Aviso('Desenhos para assistir. Precisam de internet.'),
+        const _Aviso('Toque para assistir no YouTube. Precisa de internet.'),
         for (final g in gruposVideos) _SecaoVideos(g),
       ],
     ),
@@ -30,7 +30,7 @@ class MusicasPage extends StatelessWidget {
     body: ListView(
       padding: const EdgeInsets.all(12),
       children: [
-        const _Aviso('Músicas para cantar e aprender. Precisam de internet.'),
+        const _Aviso('Toque para ouvir no YouTube. Precisa de internet.'),
         const _SecaoVideos(musicasAlfabeto),
         const _Titulo('🌿', 'Para relaxar'),
         for (final m in musicasRelaxantes)
@@ -109,7 +109,8 @@ class _Linha extends StatelessWidget {
       leading: const Icon(Icons.play_circle_fill, size: 44),
       title: Text(titulo, style: const TextStyle(fontSize: 19)),
       subtitle: subtitulo == null ? null : Text(subtitulo!),
-      onTap: () => mostrarVideo(context, videoId, titulo: titulo),
+      trailing: const Icon(Icons.open_in_new),
+      onTap: () => abrirNoYoutube(videoId),
     ),
   );
 }
